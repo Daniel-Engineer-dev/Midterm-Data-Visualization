@@ -1,0 +1,77 @@
+\section{Thiết kế \& Kết quả (The "How")}
+
+\subsection{Screenshot toàn bộ Dashboard}
+
+Dưới đây là một ảnh chụp màn hình tổng thể của Dashboard để người dùng có thể hình dung được quy trình làm việc và layout thiết kế:
+
+\begin{figure}[H]
+    \centering
+    \setlength{\fboxsep}{10pt}
+    \setlength{\fboxrule}{1pt}
+    \fbox{
+        \begin{minipage}{0.9\textwidth}
+            \centering
+            \vspace{1cm}
+            \textbf{[MÔ HÌNH HÓA TOÀN BỘ DASHBOARD]}
+            \\[20pt]
+            \textit{\small (Chèn ảnh vào đây --- Screenshot Dashboard.png)}
+            \vspace{1cm}
+        \end{minipage}
+    }
+    \caption{Phác thảo thiết kế Dashboard cho dự án}
+    \label{fig:full_dashboard}
+\end{figure}
+
+\subsection{Trình bày chi tiết từng biểu đồ thành phần}
+
+Trong phần này, mỗi biểu đồ sẽ được phân tích chi tiết dựa trên kênh trực quan (Mark/Channel) và những nhận xét rút ra:
+
+\subsubsection{Xu hướng Doanh thu theo Tháng}
+
+\begin{figure}[H]
+    \centering
+    \fbox{
+        \begin{minipage}{0.6\textwidth}
+            \centering
+            \vspace{0.5cm}
+            \textbf{[Line Chart --- Doanh thu theo thời gian]}
+            \vspace{0.5cm}
+        \end{minipage}
+    }
+    \caption{Biểu đồ đường thể hiện xu hướng doanh thu}
+    \label{fig:line_revenue}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Giải thích thiết kế:}
+        \begin{itemize}
+            \item \textbf{Mark:} Line (Các đường nối giữa các điểm dữ liệu).
+            \item \textbf{Channel:} Vertical position (trục Y) biểu thị doanh thu; Horizontal position (trục X) biểu thị thời gian. 
+        \end{itemize}
+    \item \textbf{Nhận xét (Insight):} Doanh thu có sự tăng trưởng mạnh vào quý 4 do các dịp lễ và chương trình khuyến mãi.
+\end{itemize}
+
+\subsubsection{Phân tích Doanh thu theo Danh mục}
+
+\begin{figure}[H]
+    \centering
+    \fbox{
+        \begin{minipage}{0.6\textwidth}
+            \centering
+            \vspace{0.5cm}
+            \textbf{[Bar Chart --- Doanh thu theo danh mục]}
+            \vspace{0.5cm}
+        \end{minipage}
+    }
+    \caption{Biểu đồ cột so sánh các danh mục}
+    \label{fig:bar_category}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Giải thích thiết kế:}
+        \begin{itemize}
+            \item \textbf{Mark:} Bar (Các cột đứng).
+            \item \textbf{Channel:} Length (Chiều dài cột) biểu thị doanh thu; Categorical color (Màu sắc) để phân biệt các nhóm danh mục.
+        \end{itemize}
+    \item \textbf{Nhận xét (Insight):} Danh mục "Electronics" mang lại doanh thu cao nhất nhưng lại có tỷ lệ hoàn trả tương đối cao so với các nhóm khác.
+\end{itemize}

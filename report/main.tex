@@ -1,0 +1,123 @@
+\documentclass[12pt,a4paper]{article}
+
+% ===== PACKAGES =====
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}           % Hỗ trợ tiếng Việt
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{anyfontsize}
+\usepackage{tabularx}              % Cần cho môi trường tabularx
+\usepackage{booktabs}              % Cần cho \toprule, \midrule, \bottomrule
+\usepackage{array}                 % Cần cho \newcolumntype
+\usepackage{enumitem}              % Cần cho tùy chỉnh list
+\usepackage{hyperref}              % Cần cho \url{}
+\usepackage{fancyhdr}              % Cần cho header/footer
+\usepackage{amsmath}               % Cần cho $\times$, $\sim$, $\rightarrow$
+\usepackage{titlesec}              % Cần cho \titleformat
+\usepackage{float}                 % Cần cho [H] placement
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[backend=biber, style=numeric]{biblatex}
+
+\addbibresource{references.bib}
+
+% ===== LỀ TRANG =====
+\geometry{
+    a4paper,
+    top=2cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% ===== COLORS =====
+\definecolor{navyblue}{RGB}{10, 60, 120}
+\definecolor{darkblue}{RGB}{15, 50, 100}
+\definecolor{primaryblue}{HTML}{1A5276}
+\definecolor{accentblue}{HTML}{2980B9}
+\definecolor{darkgray}{HTML}{2C3E50}
+
+% ===== HYPERLINK SETUP =====
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=accentblue,
+    citecolor=primaryblue
+}
+
+% ===== SECTION FORMATTING =====
+\titleformat{\section}
+    {\Large\bfseries\color{primaryblue}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}
+    {\large\bfseries\color{darkgray}}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}
+    {\normalsize\bfseries\color{accentblue}}{\thesubsubsection.}{0.5em}{}
+
+% ===== HEADER & FOOTER =====
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{Báo cáo Giữa Kì --- Trực quan hóa Dữ liệu}}
+\fancyhead[R]{\small\textcolor{gray}{Giữa Kì}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ===== COLUMN TYPE =====
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ===== BEGIN DOCUMENT =====
+\begin{document}
+
+% =====================================================================
+% TRANG BÌA (sử dụng template coverpage.tex)
+% =====================================================================
+\newcommand{\ReportType}{BÁO CÁO GIỮA KÌ}
+\newcommand{\CourseName}{Trực Quan Hóa Dữ Liệu}
+\newcommand{\ProjectTitleLineOne}{PHÂN TÍCH HIỆU SUẤT KINH DOANH}
+\newcommand{\ProjectTitleLineTwo}{THƯƠNG MẠI ĐIỆN TỬ}
+\newcommand{\Advisor}{Bùi Tiến Lên}
+\newcommand{\Instructor}{Trần Huy Bân}
+\newcommand{\ReportDate}{tháng 03, năm 2026}
+\input{coverpage}
+
+% ===== TABLE OF CONTENTS =====
+\tableofcontents
+\newpage
+
+% =====================================================================
+% SECTION 1: TIÊU ĐỀ & THÀNH VIÊN
+% =====================================================================
+\input{sections/01_members}
+
+% =====================================================================
+% SECTION 2: GIỚI THIỆU DỮ LIỆU
+% =====================================================================
+\input{sections/02_data}
+
+% =====================================================================
+% SECTION 3: PHÂN TÍCH WHAT-WHY
+% =====================================================================
+\input{sections/03_what_why}
+
+% =====================================================================
+% SECTION 4: THIẾT KẾ & KẾT QUẢ (THE "HOW")
+% =====================================================================
+\clearpage
+\input{sections/04_how_results}
+
+% =====================================================================
+% SECTION 5: THẢO LUẬN
+% =====================================================================
+\clearpage
+\input{sections/05_discussion}
+
+
+% ===== TÀI LIỆU THAM KHẢO =====
+\newpage
+\printbibliography[title={Tài Liệu Tham Khảo}]
+
+\end{document}

@@ -1,0 +1,94 @@
+\section{Phân tích What-Why}
+
+\subsection{Bảng phân tích biến số (Variable types)}
+
+Dưới đây là bảng chi tiết các biến trong bộ dữ liệu e-commerce cùng với vai trò và kiểu dữ liệu:
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|l|L{3.5cm}|X|}
+    \hline
+    \textbf{Biến} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\
+    \hline
+    \texttt{order\_id} & Categorical (Nominal) & Mã đơn hàng --- mã duy nhất cho mỗi giao dịch. \\
+    \hline
+    \texttt{customer\_id} & Categorical (Nominal) & Mã khách hàng --- mã duy nhất cho mỗi khách hàng. \\
+    \hline
+    \texttt{product\_id} & Categorical (Nominal) & Mã sản phẩm --- mã duy nhất cho mỗi sản phẩm. \\
+    \hline
+    \texttt{category} & Categorical (Nominal) & Danh mục sản phẩm (Electronics, Fashion, Home, Beauty, Sports, Toys, Grocery). \\
+    \hline
+    \texttt{price} & Quantitative (Ratio) & Đơn giá sản phẩm. \\
+    \hline
+    \texttt{discount} & Quantitative (Ratio) & Phần trăm giảm giá được áp dụng (\%). \\
+    \hline
+    \texttt{quantity} & Quantitative (Ratio) & Số lượng sản phẩm trong mỗi đơn hàng. \\
+    \hline
+    \texttt{order\_date} & Ordered (Temporal) & Ngày đặt hàng. \\
+    \hline
+    \texttt{delivery\_time\_days} & Quantitative (Ratio) & Số ngày giao hàng. \\
+    \hline
+    \texttt{region} & Categorical (Nominal) & Khu vực địa lý của khách hàng. \\
+    \hline
+    \texttt{returned} & Categorical (Binary) & Sản phẩm có bị trả lại (Yes/No). \\
+    \hline
+    \texttt{total\_amount} & Quantitative (Ratio) & Tổng tiền thanh toán sau khi giảm giá. \\
+    \hline
+    \texttt{profit\_margin} & Quantitative (Ratio) & Biên lợi nhuận của đơn hàng. \\
+    \hline
+    \texttt{customer\_age} & Quantitative (Ratio) & Tuổi của khách hàng (18--70). \\
+    \hline
+    \texttt{customer\_gender} & Categorical (Nominal) & Giới tính khách hàng. \\
+    \hline
+\end{tabularx}
+\caption{Bảng phân loại các biến số và vai trò phân tích}
+\end{table}
+
+\subsection{Phân tích Why (Nhiệm vụ / Câu hỏi phân tích)}
+
+Dưới đây là các câu hỏi phân tích dự kiến mà Dashboard sẽ trả lời:
+
+\subsubsection{Nhóm 1: Xu hướng Doanh thu theo Thời gian}
+
+\begin{enumerate}
+    \item \textbf{Doanh thu thay đổi như thế nào theo từng tháng/quý?} Có xu hướng tăng trưởng hay suy giảm không?
+    \item \textbf{Tháng nào trong năm có doanh thu cao nhất?} Có yếu tố mùa vụ (seasonality) rõ ràng không?
+    \item \textbf{Ngày nào trong tuần có nhiều đơn hàng nhất?} Xu hướng mua sắm theo thời gian ra sao?
+\end{enumerate}
+
+\input{sections/members/tv1_duc}
+
+\subsubsection{Nhóm 2: Phân tích Sản phẩm \& Danh mục}
+
+\begin{enumerate}
+    \setcounter{enumi}{3}
+    \item \textbf{Danh mục nào có doanh thu cao nhất?} So sánh doanh thu giữa 7 danh mục (Electronics, Fashion, Home, Beauty, Sports, Toys, Grocery).
+    \item \textbf{Tỷ lệ hoàn trả theo từng danh mục là bao nhiêu?} Danh mục nào có tỷ lệ hoàn trả cao nhất?
+    \item \textbf{Mức giảm giá ảnh hưởng thế nào đến doanh thu và biên lợi nhuận?}
+\end{enumerate}
+
+\input{sections/members/tv2_quangvinh}
+
+\subsubsection{Nhóm 3: Phân tích Khách hàng}
+
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item \textbf{Phân bổ khách hàng theo độ tuổi và giới tính như thế nào?} Nhóm nào chi tiêu nhiều nhất?
+    \item \textbf{Phương thức thanh toán nào được ưa chuộng nhất?} Có sự khác biệt theo nhóm tuổi/giới tính không?
+    \item \textbf{Top khách hàng có giá trị cao nhất (theo tổng chi tiêu) là ai?}
+\end{enumerate}
+
+\input{sections/members/tv3_quocviet}
+
+\subsubsection{Nhóm 4: Phân bổ Khu vực \& Vận chuyển}
+
+\begin{enumerate}
+    \setcounter{enumi}{9}
+    \item \textbf{Doanh thu phân bổ ra sao theo các khu vực địa lý?} Khu vực nào có hiệu suất tốt nhất?
+    \item \textbf{Thời gian giao hàng và chi phí vận chuyển khác nhau thế nào giữa các khu vực?}
+    \item \textbf{Có mối tương quan nào giữa chi phí vận chuyển và tỷ lệ hoàn trả không?}
+\end{enumerate}
+
+\input{sections/members/tv4_thevinh}
+

@@ -2,12 +2,15 @@
 *.aux
 *.fdb_latexmk
 *.fls
-*.gz
 *.log
-*.pdf
 *.toc
 *.synctex.gz
 *.out
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.pdf
 
 # Python (Virtual Environments)
 venv/
