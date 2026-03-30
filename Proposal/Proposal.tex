@@ -1,0 +1,366 @@
+\documentclass[12pt,a4paper]{article}
+
+% ===== PACKAGES =====
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}           % Hỗ trợ tiếng Việt (chỉ khai báo 1 lần)
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{anyfontsize}
+\usepackage{tabularx}              % Cần cho môi trường tabularx
+\usepackage{booktabs}              % Cần cho \toprule, \midrule, \bottomrule
+\usepackage{array}                 % Cần cho \newcolumntype
+\usepackage{enumitem}              % Cần cho tùy chỉnh list
+\usepackage{hyperref}              % Cần cho \url{}
+\usepackage{fancyhdr}              % Cần cho header/footer
+\usepackage{amsmath}               % Cần cho $\times$, $\sim$, $\rightarrow$
+\usepackage{titlesec}              % Cần cho \titleformat
+
+% ===== LỀ TRANG =====
+\geometry{
+    a4paper,
+    top=2cm,
+    bottom=2cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% ===== COLORS =====
+\definecolor{navyblue}{RGB}{10, 60, 120}
+\definecolor{darkblue}{RGB}{15, 50, 100}
+\definecolor{primaryblue}{HTML}{1A5276}
+\definecolor{accentblue}{HTML}{2980B9}
+\definecolor{darkgray}{HTML}{2C3E50}
+
+% ===== HYPERLINK SETUP =====
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=accentblue,
+    citecolor=primaryblue
+}
+
+% ===== SECTION FORMATTING =====
+\titleformat{\section}
+    {\Large\bfseries\color{primaryblue}}{\thesection.}{0.5em}{}
+\titleformat{\subsection}
+    {\large\bfseries\color{darkgray}}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}
+    {\normalsize\bfseries\color{accentblue}}{\thesubsubsection.}{0.5em}{}
+
+% ===== HEADER & FOOTER =====
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{Báo cáo Đề Xuất --- Trực quan hóa Dữ liệu}}
+\fancyhead[R]{\small\textcolor{gray}{Giữa Kì}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+
+% ===== COLUMN TYPE =====
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ===== BEGIN DOCUMENT =====
+\begin{document}
+
+% =====================================================================
+% TRANG BÌA (sử dụng template coverpage.tex)
+% =====================================================================
+\newcommand{\ReportType}{BÁO CÁO ĐỀ XUẤT}
+\newcommand{\CourseName}{Trực Quan Hóa Dữ Liệu}
+\newcommand{\ProjectTitleLineOne}{PHÂN TÍCH HIỆU XUẤT KINH DOANH}
+\newcommand{\ProjectTitleLineTwo}{THƯƠNG MẠI ĐIỆN TỬ}
+\newcommand{\Advisor}{Bùi Tiến Lên}
+\newcommand{\Instructor}{Trần Huy Bân}
+\newcommand{\ReportDate}{tháng 03, năm 2026}
+\input{coverpage}
+
+% ===== TABLE OF CONTENTS =====
+\tableofcontents
+\newpage
+
+% =====================================================================
+% SECTION 1: TÊN ĐỀ TÀI
+% =====================================================================
+\section{Tên đề tài}
+
+\textbf{Phân tích Hiệu suất Kinh doanh Thương mại Điện tử --- Xu hướng Bán hàng, Hành vi Khách hàng \& Phân bố Địa lý}
+
+\vspace{0.3cm}
+Đồ án áp dụng khung lý thuyết \textbf{What-Why-How} để phân tích dữ liệu giao dịch thương mại điện tử thực tế, từ đó xây dựng một \textbf{Interactive Dashboard} giúp trả lời các câu hỏi kinh doanh quan trọng về xu hướng doanh thu, hành vi khách hàng và phân bố thị trường theo địa lý.
+
+% =====================================================================
+% SECTION 2: DANH SÁCH THÀNH VIÊN
+% =====================================================================
+\section{Danh sách Thành viên}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|c|L{3cm}|c|X|c|}
+    \hline
+    \textbf{STT} & \textbf{Họ và Tên} & \textbf{MSSV} & \textbf{Vai trò} & \textbf{Đóng góp} \\
+    \hline
+    1 & Lê Lâm Trí Đức & 23120237 & Trưởng nhóm --- Thiết kế Dashboard \& Tổng hợp báo cáo & 100\% \\
+    \hline
+    2 & Phạm Quang Vinh & 23120202 & Xử lý \& Làm sạch dữ liệu & 100\% \\
+    \hline
+    3 & Nguyễn Lê Thế Vinh & 23120190 & Phân tích What-Why \& Viết báo cáo & 100\% \\
+    \hline
+    4 & Hoàng Quốc Việt & 23120189 & Thiết kế biểu đồ \& Cài đặt tương tác & 100\% \\
+    \hline
+\end{tabularx}
+\caption{Danh sách thành viên nhóm và phân công công việc}
+\end{table}
+
+% =====================================================================
+% SECTION 3: MÔ TẢ DỮ LIỆU
+% =====================================================================
+\section{Mô tả Dữ liệu}
+
+\subsection{Nguồn dữ liệu}
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Tên dataset:} E-commerce Sales Transactions Dataset
+    \item \textbf{Nguồn:} Kaggle (tác giả: Arif Miah)
+    \item \textbf{Link tải:} \url{https://www.kaggle.com/datasets/miadul/e-commerce-sales-transactions-dataset}
+    \item \textbf{Mô tả:} Tập dữ liệu mô phỏng các giao dịch bán hàng thương mại điện tử, bao gồm \textbf{34.500 bản ghi} với \textbf{17 thuộc tính}. Dữ liệu được thiết kế để phản ánh thực tế mua sắm trực tuyến, hỗ trợ các tác vụ phân tích bán hàng, phân khúc khách hàng, dự đoán hoàn trả và đánh giá hiệu suất sản phẩm.
+    \item \textbf{Giấy phép:} Apache 2.0
+\end{itemize}
+
+\subsection{Thông tin chi tiết về biến số}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|l|L{3.5cm}|X|}
+    \hline
+    \textbf{Biến} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\
+    \hline
+    \texttt{order\_id} & Categorical (Nominal) & Mã đơn hàng --- mã duy nhất cho mỗi giao dịch. \\
+    \hline
+    \texttt{customer\_id} & Categorical (Nominal) & Mã khách hàng --- mã duy nhất cho mỗi khách hàng. \\
+    \hline
+    \texttt{product\_id} & Categorical (Nominal) & Mã sản phẩm --- mã duy nhất cho mỗi sản phẩm. \\
+    \hline
+    \texttt{category} & Categorical (Nominal) & Danh mục sản phẩm (Electronics, Fashion, Home, Beauty, Sports, Toys, Grocery). \\
+    \hline
+    \texttt{price} & Quantitative (Ratio) & Đơn giá sản phẩm. \\
+    \hline
+    \texttt{discount} & Quantitative (Ratio) & Phần trăm giảm giá được áp dụng (\%). \\
+    \hline
+    \texttt{quantity} & Quantitative (Ratio) & Số lượng sản phẩm trong mỗi đơn hàng. \\
+    \hline
+    \texttt{payment\_method} & Categorical (Nominal) & Phương thức thanh toán (Credit Card, Debit Card, UPI, PayPal, COD, Wallet). \\
+    \hline
+    \texttt{order\_date} & Ordered (Temporal) & Ngày đặt hàng. \\
+    \hline
+    \texttt{delivery\_time\_days} & Quantitative (Ratio) & Số ngày giao hàng. \\
+    \hline
+    \texttt{region} & Categorical (Nominal) & Khu vực địa lý của khách hàng. \\
+    \hline
+    \texttt{returned} & Categorical (Binary) & Sản phẩm có bị trả lại không (Yes/No). \\
+    \hline
+    \texttt{total\_amount} & Quantitative (Ratio) & Tổng tiền thanh toán sau khi áp dụng giảm giá. \\
+    \hline
+    \texttt{shipping\_cost} & Quantitative (Ratio) & Chi phí vận chuyển. \\
+    \hline
+    \texttt{profit\_margin} & Quantitative (Ratio) & Biên lợi nhuận của đơn hàng. \\
+    \hline
+    \texttt{customer\_age} & Quantitative (Ratio) & Tuổi của khách hàng (18--70). \\
+    \hline
+    \texttt{customer\_gender} & Categorical (Nominal) & Giới tính khách hàng (Male/Female/Other). \\
+    \hline
+\end{tabularx}
+\caption{Mô tả chi tiết các biến trong tập dữ liệu E-commerce Sales Transactions}
+\end{table}
+
+\subsection{Đặc điểm nổi bật}
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Quy mô:} 34.500 bản ghi giao dịch
+    \item \textbf{Số thuộc tính:} 17 biến (bao gồm cả thông tin đơn hàng, sản phẩm, khách hàng và vận chuyển)
+    \item \textbf{Danh mục sản phẩm:} 7 danh mục (Electronics, Fashion, Home, Beauty, Sports, Toys, Grocery)
+    \item \textbf{Phương thức thanh toán:} 6 loại (Credit Card, Debit Card, UPI, PayPal, COD, Wallet)
+    \item \textbf{Thông tin nhân khẩu học:} Tuổi (18--70), giới tính (Male/Female/Other)
+    \item \textbf{Bao gồm cả giao dịch hoàn trả} $\rightarrow$ cho phép phân tích tỷ lệ hoàn trả theo danh mục, khu vực
+\end{itemize}
+
+% =====================================================================
+% SECTION 4: PHÂN TÍCH DỰ KIẾN
+% =====================================================================
+\section{Phân tích Dự kiến (What-Why)}
+
+\subsection{Phân tích What (Dữ liệu)}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{|L{4cm}|X|}
+    \hline
+    \textbf{Khía cạnh} & \textbf{Chi tiết} \\
+    \hline
+    Loại dữ liệu & Table (Bảng dữ liệu quan hệ) \\
+    \hline
+    Thuộc tính Categorical & \texttt{category}, \texttt{payment\_method}, \texttt{region}, \texttt{returned}, \texttt{customer\_gender} \\
+    \hline
+    Thuộc tính Quantitative & \texttt{price}, \texttt{discount}, \texttt{quantity}, \texttt{total\_amount}, \texttt{shipping\_cost}, \texttt{profit\_margin}, \texttt{customer\_age}, \texttt{delivery\_time\_days} \\
+    \hline
+    Thuộc tính Ordered & \texttt{order\_date} (temporal --- theo thời gian) \\
+    \hline
+    Thuộc tính Identity & \texttt{order\_id}, \texttt{customer\_id}, \texttt{product\_id} \\
+    \hline
+    Biến phái sinh & \texttt{Month}, \texttt{DayOfWeek}, \texttt{AgeGroup} (nhóm tuổi), \texttt{DiscountLevel} (mức giảm giá) \\
+    \hline
+\end{tabularx}
+\caption{Phân tích What --- Tổng quan về dữ liệu}
+\end{table}
+
+\subsection{Phân tích Why (Nhiệm vụ / Câu hỏi phân tích)}
+
+Dưới đây là các câu hỏi phân tích dự kiến mà Dashboard sẽ trả lời:
+
+\subsubsection{Nhóm 1: Xu hướng Doanh thu theo Thời gian}
+
+\begin{enumerate}[leftmargin=1.5cm]
+    \item \textbf{Doanh thu thay đổi như thế nào theo từng tháng/quý?} Có xu hướng tăng trưởng hay suy giảm không?
+    \item \textbf{Tháng nào trong năm có doanh thu cao nhất?} Có yếu tố mùa vụ (seasonality) rõ ràng không?
+    \item \textbf{Ngày nào trong tuần có nhiều đơn hàng nhất?} Xu hướng mua sắm theo thời gian ra sao?
+\end{enumerate}
+
+\subsubsection{Nhóm 2: Phân tích Sản phẩm \& Danh mục}
+
+\begin{enumerate}[leftmargin=1.5cm, start=4]
+    \item \textbf{Danh mục nào có doanh thu cao nhất?} So sánh doanh thu giữa 7 danh mục (Electronics, Fashion, Home, Beauty, Sports, Toys, Grocery).
+    \item \textbf{Tỷ lệ hoàn trả theo từng danh mục là bao nhiêu?} Danh mục nào có tỷ lệ hoàn trả cao nhất?
+    \item \textbf{Mức giảm giá ảnh hưởng thế nào đến doanh thu và biên lợi nhuận?}
+\end{enumerate}
+
+\subsubsection{Nhóm 3: Phân tích Khách hàng}
+
+\begin{enumerate}[leftmargin=1.5cm, start=7]
+    \item \textbf{Phân bố khách hàng theo độ tuổi và giới tính như thế nào?} Nhóm nào chi tiêu nhiều nhất?
+    \item \textbf{Phương thức thanh toán nào được ưa chuộng nhất?} Có sự khác biệt theo nhóm tuổi/giới tính không?
+    \item \textbf{Top khách hàng có giá trị cao nhất (theo tổng chi tiêu) là ai?}
+\end{enumerate}
+
+\subsubsection{Nhóm 4: Phân bố Khu vực \& Vận chuyển}
+
+\begin{enumerate}[leftmargin=1.5cm, start=10]
+    \item \textbf{Doanh thu phân bố ra sao theo các khu vực địa lý?} Khu vực nào có hiệu suất tốt nhất?
+    \item \textbf{Thời gian giao hàng và chi phí vận chuyển khác nhau thế nào giữa các khu vực?}
+    \item \textbf{Có mối tương quan nào giữa chi phí vận chuyển và tỷ lệ hoàn trả không?}
+\end{enumerate}
+
+% =====================================================================
+% SECTION 5: THIẾT KẾ DASHBOARD
+% =====================================================================
+\section{Thiết kế Dashboard Dự kiến (How)}
+
+\subsection{Công cụ sử dụng}
+
+\textbf{Tableau} hoặc \textbf{Streamlit/Dash}
+
+\subsection{Các biểu đồ dự kiến}
+
+\begin{table}[h!]
+\centering
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|L{3.2cm}|L{3cm}|X|L{4cm}|}
+\hline
+\textbf{Biểu đồ} & \textbf{Loại} & \textbf{Mục đích} & \textbf{Biến sử dụng} \\
+\hline
+Line Chart & Temporal & Xu hướng doanh thu theo tháng & \texttt{order\_date}, \texttt{total\_amount} \\
+\hline
+Bar Chart (ngang) & Ranking / Comparison & Doanh thu theo danh mục sản phẩm & \texttt{category}, \texttt{total\_amount} \\
+\hline
+Bar Chart (dọc) & Comparison & Doanh thu theo khu vực & \texttt{region}, \texttt{total\_amount} \\
+\hline
+Heatmap & Categorical $\times$ Categorical & Doanh thu theo danh mục \& khu vực & \texttt{category}, \texttt{region}, \texttt{total\_amount} \\
+\hline
+Pie/Donut Chart & Proportion & Tỷ lệ phương thức thanh toán & \texttt{payment\_method}, \texttt{Count} \\
+\hline
+Scatter Plot & Correlation & Mối quan hệ giữa giảm giá và lợi nhuận & \texttt{discount}, \texttt{profit\_margin} \\
+\hline
+Stacked Bar Chart & Composition & Tỷ lệ hoàn trả theo danh mục & \texttt{category}, \texttt{returned} \\
+\hline
+Histogram & Distribution & Phân bố độ tuổi khách hàng & \texttt{customer\_age} \\
+\hline
+Box Plot & Distribution & Thời gian giao hàng theo khu vực & \texttt{region}, \texttt{delivery\_time\_days} \\
+\hline
+\end{tabularx}
+\caption{Danh sách các biểu đồ dự kiến trong Dashboard}
+\end{table}
+
+\subsection{Tương tác dự kiến}
+
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Filter / Slicer:} Lọc theo khu vực, khoảng thời gian, danh mục sản phẩm, phương thức thanh toán.
+    \item \textbf{Hover Tooltip:} Hiển thị thông tin chi tiết khi di chuột vào biểu đồ.
+    \item \textbf{Cross-filtering:} Click vào một khu vực hoặc danh mục $\rightarrow$ tự động cập nhật các biểu đồ khác.
+    \item \textbf{Drill-down:} Từ tổng quan năm $\rightarrow$ quý $\rightarrow$ tháng $\rightarrow$ tuần.
+\end{itemize}
+
+\subsection{Bố cục Dashboard (Layout)}
+
+Bố cục Dashboard được thiết kế theo dạng lưới, với phần header hiển thị các KPI tổng quan và phần footer chứa bộ lọc tương tác:
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{2.0}
+\begin{tabular}{|L{7cm}|L{7cm}|}
+    \hline
+    \multicolumn{2}{|c|}{\textbf{HEADER: Tên Dashboard + KPI Cards}} \\
+    \multicolumn{2}{|c|}{\small Tổng Doanh thu $|$ Số Đơn hàng $|$ Trung bình Lợi nhuận $|$ Tỷ lệ Hoàn trả $|$ Trung bình Giao hàng} \\
+    \hline
+    \textbf{Line Chart} \newline {\small Xu hướng Doanh thu theo Tháng} &
+    \textbf{Bar Chart} \newline {\small Doanh thu theo Danh mục} \\
+    \hline
+    \textbf{Bar Chart} \newline {\small Doanh thu theo Khu vực} &
+    \textbf{Heatmap} \newline {\small Doanh thu Danh mục $\times$ Khu vực} \\
+    \hline
+    \textbf{Donut Chart} \newline {\small Tỷ lệ Phương thức Thanh toán} &
+    \textbf{Scatter Plot} \newline {\small Giảm giá vs. Lợi nhuận} \\
+    \hline
+    \textbf{Histogram} \newline {\small Phân bố Tuổi Khách hàng} &
+    \textbf{Box Plot} \newline {\small Thời gian Giao hàng theo Khu vực} \\
+    \hline
+    \multicolumn{2}{|c|}{\textbf{FOOTER: Bộ lọc Thời gian + Khu vực + Danh mục}} \\
+    \hline
+\end{tabular}
+\caption{Wireframe bố cục Dashboard}
+\end{table}
+
+% =====================================================================
+% SECTION 6: KẾ HOẠCH THỰC HIỆN
+% =====================================================================
+\section{Kế hoạch Thực hiện}
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\textwidth}{|c|X|L{3cm}|}
+    \hline
+    \textbf{Tuần} & \textbf{Công việc} & \textbf{Phụ trách} \\
+    \hline
+    Tuần 3 & Nộp Proposal + Thu thập \& làm sạch dữ liệu & Cả nhóm \\
+    \hline
+    Tuần 4 & Phân tích What-Why chi tiết + Tạo biến phái sinh & Cả nhóm \\
+    \hline
+    Tuần 5 & Thiết kế \& cài đặt Dashboard + Viết báo cáo & Cả nhóm \\
+    \hline
+    Tuần 6 & Hoàn thiện Dashboard, báo cáo \& Trình bày & Cả nhóm \\
+    \hline
+\end{tabularx}
+\caption{Kế hoạch thực hiện theo tuần}
+\end{table}
+
+\vspace{1cm}
+\noindent\textit{\textbf{Ghi chú:} Proposal này là bản dự kiến ban đầu. Các câu hỏi phân tích và biểu đồ có thể được điều chỉnh trong quá trình thực hiện dựa trên kết quả khám phá dữ liệu thực tế.}
+
+\end{document}

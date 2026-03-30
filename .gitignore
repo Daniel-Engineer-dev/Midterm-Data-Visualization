@@ -1,0 +1,24 @@
+# LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.gz
+*.log
+*.pdf
+*.toc
+*.synctex.gz
+*.out
+
+# Data
+# *.csv
+# *.xlsx
+# (Uncomment the above if you want to exclude data files)
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+Proposal/images/*.png (if they are already in the Requirements)
