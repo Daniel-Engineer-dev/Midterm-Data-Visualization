@@ -9,10 +9,26 @@
 *.synctex.gz
 *.out
 
-# Data
-# *.csv
-# *.xlsx
-# (Uncomment the above if you want to exclude data files)
+# Python (Virtual Environments)
+venv/
+env/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Notebooks
+.ipynb_checkpoints
+
+# Data (Excluding raw and processed data)
+# data/*.csv
+# data/*.xlsx
+# data/*.json
+# (Tất cả dữ liệu quá lớn nên được loại bỏ nếu cần)
 
 # IDEs
 .vscode/
@@ -20,5 +36,5 @@
 *.swp
 *.swo
 
-# Project specific
-Proposal/images/*.png (if they are already in the Requirements)
+# MacOS
+.DS_Store
