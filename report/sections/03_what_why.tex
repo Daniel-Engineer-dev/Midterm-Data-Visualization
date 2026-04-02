@@ -2,11 +2,14 @@
 
 \subsection{Bảng phân tích biến số (Variable types)}
 
-Dưới đây là bảng chi tiết các biến trong bộ dữ liệu e-commerce cùng với vai trò và kiểu dữ liệu:
+\subsubsection{Các biến số của bộ dữ liệu gốc}
+
+Dưới đây là bảng chi tiết 17 biến số thu thập từ bộ dữ liệu gốc:
 
 \begin{table}[H]
 \centering
-\renewcommand{\arraystretch}{1.3}
+\small
+\renewcommand{\arraystretch}{1.2}
 \begin{tabularx}{\textwidth}{|l|L{3.5cm}|X|}
     \hline
     \textbf{Biến} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả} \\
@@ -25,6 +28,8 @@ Dưới đây là bảng chi tiết các biến trong bộ dữ liệu e-commerc
     \hline
     \texttt{quantity} & Quantitative (Ratio) & Số lượng sản phẩm trong mỗi đơn hàng. \\
     \hline
+    \texttt{payment\_method} & Categorical (Nominal) & Phương thức thanh toán (Credit Card, PayPal, UPI, COD, v.v.). \\
+    \hline
     \texttt{order\_date} & Ordered (Temporal) & Ngày đặt hàng. \\
     \hline
     \texttt{delivery\_time\_days} & Quantitative (Ratio) & Số ngày giao hàng. \\
@@ -35,6 +40,8 @@ Dưới đây là bảng chi tiết các biến trong bộ dữ liệu e-commerc
     \hline
     \texttt{total\_amount} & Quantitative (Ratio) & Tổng tiền thanh toán sau khi giảm giá. \\
     \hline
+    \texttt{shipping\_cost} & Quantitative (Ratio) & Chi phí vận chuyển của đơn hàng. \\
+    \hline
     \texttt{profit\_margin} & Quantitative (Ratio) & Biên lợi nhuận của đơn hàng. \\
     \hline
     \texttt{customer\_age} & Quantitative (Ratio) & Tuổi của khách hàng (18--70). \\
@@ -42,7 +49,33 @@ Dưới đây là bảng chi tiết các biến trong bộ dữ liệu e-commerc
     \texttt{customer\_gender} & Categorical (Nominal) & Giới tính khách hàng. \\
     \hline
 \end{tabularx}
-\caption{Bảng phân loại các biến số và vai trò phân tích}
+\caption{Bảng phân loại các biến số gốc từ Kaggle}
+\end{table}
+\newpage
+\subsubsection{Các biến phái sinh (Derived variables)}
+
+Các biến này được tạo ra từ quá trình làm sạch dữ liệu để phục vụ các yêu cầu phân tích cụ thể:
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|l|L{3.5cm}|X|}
+    \hline
+    \textbf{Biến} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả (Cách tính)} \\
+    \hline
+    \texttt{order\_year} & Ordered (Ordinal) & Năm được trích xuất từ cột \texttt{order\_date}. \\
+    \hline
+    \texttt{order\_month} & Ordered (Ordinal) & Tháng được trích xuất từ cột \texttt{order\_date}. \\
+    \hline
+    \texttt{order\_quarter} & Ordered (Ordinal) & Quý (1--4) được xác định từ cột \texttt{order\_date}. \\
+    \hline
+    \texttt{order\_day\_of\_week} & Categorical (Ordinal) & Thứ trong tuần được xác định từ cột \texttt{order\_date}. \\
+    \hline
+    \texttt{is\_returned} & Quantitative (Binary) & Mã hóa \texttt{returned} thành dạng số: 0 (No) và 1 (Yes). \\
+    \hline
+\end{tabularx}
+\caption{Bảng các biến số được tạo thêm phục vụ phân tích}
 \end{table}
 
 \subsection{Phân tích Why (Nhiệm vụ / Câu hỏi phân tích)}
@@ -50,11 +83,15 @@ Dưới đây là bảng chi tiết các biến trong bộ dữ liệu e-commerc
 Dưới đây là các câu hỏi phân tích dự kiến mà Dashboard sẽ trả lời:
 
 \subsubsection{Nhóm 1: Xu hướng Doanh thu theo Thời gian}
+\noindent\textbf{1. Đối tượng đặt câu hỏi:} \\
+Bộ phận Quản lý kinh doanh (Sales Manager).
 
-\begin{enumerate}
-    \item \textbf{Doanh thu thay đổi như thế nào theo từng tháng/quý?} Có xu hướng tăng trưởng hay suy giảm không?
-    \item \textbf{Tháng nào trong năm có doanh thu cao nhất?} Có yếu tố mùa vụ (seasonality) rõ ràng không?
-    \item \textbf{Ngày nào trong tuần có nhiều đơn hàng nhất?} Xu hướng mua sắm theo thời gian ra sao?
+\vspace{0.3cm}
+\noindent\textbf{2. Danh sách các câu hỏi phân tích (Nhóm 1):}
+\begin{enumerate}[label=\alph*)]
+    \item Doanh thu thay đổi như thế nào theo từng tháng/quý? Có xu hướng tăng trưởng hay suy giảm không?
+    \item Tháng nào trong năm có doanh thu cao nhất? Có yếu tố mùa vụ (seasonality) rõ ràng không?
+    \item Ngày nào trong tuần có nhiều đơn hàng nhất? Xu hướng mua sắm theo thời gian ra sao?
 \end{enumerate}
 
 \input{sections/members/tv1_duc}
