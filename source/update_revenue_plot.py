@@ -105,4 +105,94 @@ plt.tight_layout()
 plt.savefig("report/images/revenue_trend.png", dpi=300)
 plt.close()
 
-print("Successfully updated revenue_trend.png with outlier highlight and large fonts!")
+# ----------------- 2. DAY OF WEEK TREND (IMPROVED) -----------------
+import numpy as np
+from matplotlib.patches import Patch
+
+# Mapping sang tiếng Việt
+dow_mapping = {
+    "Monday": "Thứ 2",
+    "Tuesday": "Thứ 3",
+    "Wednesday": "Thứ 4",
+    "Thursday": "Thứ 5",
+    "Friday": "Thứ 6",
+    "Saturday": "Thứ 7",
+    "Sunday": "Chủ nhật",
+}
+
+dow_order_vi = ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"]
+
+# Xử lý dữ liệu
+dow_counts = (
+    df["order_day_of_week"]
+    .map(dow_mapping)
+    .value_counts()
+    .reindex(dow_order_vi, fill_value=0)
+    .reset_index()
+)
+
+dow_counts.columns = ["Day", "Orders"]
+
+plt.figure(figsize=(11, 6))
+plt.grid(axis="y", linestyle="--", alpha=0.6, zorder=0)
+
+# Dùng trục số để giãn cách đẹp hơn
+x = np.arange(len(dow_counts))
+
+# Highlight ngày cao điểm
+peak_days_vi = ["Thứ 4", "Thứ 5"]
+colors = ["#e74c3c" if d in peak_days_vi else "#3498db" for d in dow_counts["Day"]]
+
+bars = plt.bar(
+    x, dow_counts["Orders"], color=colors, width=0.55, zorder=3  # 👈 giãn cột
+)
+
+# Title + Label
+plt.title(
+    "Lượng Đơn Hàng Theo Thứ Trong Tuần",
+    fontsize=16,
+    fontweight="bold",
+    pad=20,
+)
+
+plt.xlabel("Thứ trong tuần", fontsize=14, labelpad=10)
+plt.ylabel("Số lượng đơn hàng", fontsize=14, labelpad=10)
+
+# Tick
+plt.xticks(x, dow_counts["Day"], fontsize=12)
+plt.yticks(fontsize=12)
+
+# Value labels
+for bar in bars:
+    height = bar.get_height()
+    plt.text(
+        bar.get_x() + bar.get_width() / 2.0,
+        height + 10,
+        f"{int(height)}",
+        ha="center",
+        va="bottom",
+        fontsize=11,
+        fontweight="bold",
+    )
+
+# Legend ngoài biểu đồ
+legend_elements = [
+    Patch(facecolor="#e74c3c", label="Ngày cao điểm (Thứ 4, Thứ 5)"),
+    Patch(facecolor="#3498db", label="Ngày bình thường"),
+]
+
+plt.legend(
+    handles=legend_elements,
+    fontsize=11,
+    loc="upper left",
+    bbox_to_anchor=(1, 1),  # 👈 nằm giữa bên phải
+    title="Phân loại",
+    title_fontsize=12,
+    frameon=True,
+)
+
+plt.tight_layout()
+plt.subplots_adjust(left=0.1, right=0.75)
+
+plt.savefig("report/images/dow_trend.png", dpi=300, bbox_inches="tight")
+plt.close()
