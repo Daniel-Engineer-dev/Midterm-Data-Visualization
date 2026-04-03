@@ -4,31 +4,73 @@
 \vspace{0.6cm}
 \noindent\textbf{3. Kết quả phân tích \& Trực quan hóa:}
 
+% (a) Biến động theo tháng/quý
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Biến động theo tháng/quý:}
+\end{enumerate}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/revenue_trend.png}
     \caption{Biểu đồ xu hướng doanh thu hàng tháng từ 2023 - 2025}
     \label{fig:revenue_trend}
 \end{figure}
-\vspace{0.2cm}
-\noindent\textbf{Lý do chọn biểu đồ:}\\
-\noindent Sử dụng biểu đồ đường (Line Chart) giúp thể hiện tính liên tục của dữ liệu theo thời gian, giúp người xem dễ dàng nhận diện tính chu kỳ và xu hướng (trend) hơn so với các dạng biểu đồ rời rạc.
 
-\begin{enumerate}[label=(\alph*)]
-    \item \textbf{Biến động tháng/quý:} Doanh thu tổng thể duy trì ở mức ổn định trong giai đoạn từ tháng 09/2023 đến tháng 09/2025. Có sự tăng trưởng đáng kể vào năm 2024 khi so sánh theo quý, cho thấy sự mở rộng của quy mô kinh doanh.
-    \item \textbf{Tháng cao điểm \& Mùa vụ:} 
-    \begin{itemize}
-        \item \textit{Cao điểm:} Doanh thu đạt đỉnh vào tháng 10 và tháng 12 (mùa lễ hội cuối năm). Tháng 4 cũng ghi nhận một đợt tăng mạnh đột phá (outlier).
-        \item \textit{Thấp điểm:} Tháng 1 thường có doanh thu thấp nhất do ảnh hưởng sau các đợt tiêu dùng lớn cuối năm trước.
+\begin{itemize}
+    \item \textbf{Biến động theo Tháng (Monthly Trend):}
+    \begin{itemize}[label=--]
+        \item \textit{Xu hướng tổng thể:} Doanh thu duy trì ở mức ổn định nhưng có xu hướng biến động mạnh theo từng tháng. Đặc biệt, điểm thấp nhất toàn kỳ rơi vào \textbf{tháng 9/2025}, đánh dấu sự sụt giảm đáng kể so với các giai đoạn trước đó.
+        \item \textit{Các đợt biến động:} Ghi nhận sự tăng trưởng trở lại ngay sau các giai đoạn thấp điểm, cho thấy khả năng phục hồi nhanh của thị trường.
     \end{itemize}
-    \begin{figure}[H]
+\end{itemize}
+
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/dow_trend.png}
+    \includegraphics[width=1\textwidth]{images/quarterly_revenue.png}
+    \caption{Biểu đồ tổng doanh thu và tốc độ tăng trưởng theo quý}
+    \label{fig:quarterly_revenue}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Biến động và Tăng trưởng theo Quý (Quarterly Growth):}
+    \begin{itemize}[label=--]
+        \item \textit{Tăng trưởng 2024:} Năm 2024 ghi nhận sự bứt phá mạnh mẽ vào \textbf{Quý 2 (+10.2\%)} và đặc biệt là \textbf{Quý 4 (+15.0\%)} - đạt mức doanh thu kỷ lục \$787.7K.
+        \item \textit{Các đợt điều chỉnh:} Ngược lại, doanh thu suy giảm vào Quý 1 (-8.5\%) và Quý 3 (-10.4\%), cho thấy tính biến động của thị trường theo từng giai đoạn ngắn hạn trước khi bùng nổ vào cuối năm.
+    \end{itemize}
+\end{itemize}
+
+% (b) Tháng cao điểm & Mùa vụ
+\begin{enumerate}[label=(\alph*), resume]
+    \item \textbf{Tháng cao điểm \& Mùa vụ:}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/seasonal_revenue.png}
+    \caption{Doanh thu trung bình theo tháng}
+    \label{fig:seasonal_revenue}
+\end{figure}
+
+\begin{itemize}
+    \item \textit{Cao điểm:} Dữ liệu trung bình nhiều năm xác nhận \textbf{Tháng 12 và Tháng 10} là hai tháng mang lại doanh thu cao nhất (trên \$160,000/tháng). Tháng 4 cũng là một điểm sáng mùa vụ quan trọng.
+    \item \textit{Thấp điểm:} \textbf{Tháng 1} là tháng có doanh thu trung bình thấp nhất, khớp với biểu đồ mùa vụ (màu xám đậm), phản ánh sự bão hòa chi tiêu sau Tết/Lễ hội.
+\end{itemize}
+
+% (c) Xu hướng theo tuần
+\begin{enumerate}[label=(\alph*), resume]
+    \item \textbf{Xu hướng theo tuần:}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.88\textwidth]{images/dow_trend.png}
     \caption{Lượng đơn hàng phân bổ theo các thứ trong tuần}
     \label{fig:dow_trend}
 \end{figure}
-    \item \textbf{Xu hướng theo tuần:} Các ngày giữa tuần (Thứ Tư và Thứ Năm) thường ghi nhận số lượng đơn hàng cao hơn so với cuối tuần, cho thấy thói quen đặt hàng tranh thủ trong giờ làm việc.
-\end{enumerate}
+
+\begin{itemize}
+    \item Nhìn vào biểu đồ cột, có thể thấy rõ \textbf{Thứ Ba, Thứ Tư và Thứ Năm} là các ngày cao điểm nhất trong tuần (trong đó Thứ Năm vượt mốc 5,000 đơn hàng). Lượng giao dịch tập trung cực lớn vào giai đoạn giữa tuần, trong khi các ngày cuối tuần (Thứ Bảy, Chủ Nhật) lại có lượng giao dịch thấp hơn. Điều này cho thấy thói quen mua sắm trực tuyến gắn liền với thời gian làm việc hành chính của khách hàng.
+\end{itemize}
 
 \vspace{0.3cm}
 \noindent\textbf{4. Đưa ra quyết định trong tương lai:}

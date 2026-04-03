@@ -30,47 +30,6 @@ plt.plot(
     label="Doanh thu hàng tháng",
 )
 
-# 2. Highlight April outlier (Month 4) - Popout effect
-outlier_month = pd.Timestamp("2024-04-01")
-outlier_data = monthly_revenue[monthly_revenue["month_year_dt"] == outlier_month]
-if not outlier_data.empty:
-    plt.scatter(
-        outlier_data["month_year_dt"],
-        outlier_data["total_amount"],
-        color="#e74c3c",
-        s=250,
-        edgecolor="black",
-        linewidth=1.5,
-        zorder=5,
-        label="Điểm đột biến (Tháng 4)",
-    )
-    plt.annotate(
-        "Đột biến (Tháng 4)",
-        (outlier_data["month_year_dt"].iloc[0], outlier_data["total_amount"].iloc[0]),
-        xytext=(0, 20),
-        textcoords="offset points",
-        ha="center",
-        fontsize=13,
-        fontweight="bold",
-        color="#c0392b",
-    )
-
-# 3. Highlight high season areas
-plt.axvspan(
-    pd.Timestamp("2023-10-01"),
-    pd.Timestamp("2023-12-31"),
-    color="green",
-    alpha=0.1,
-    label="Dịp lễ cuối năm 2023",
-)
-plt.axvspan(
-    pd.Timestamp("2024-10-01"),
-    pd.Timestamp("2024-12-31"),
-    color="green",
-    alpha=0.1,
-    label="Dịp lễ cuối năm 2024",
-)
-
 # 4. Update Title size
 plt.title(
     "Xu hướng Doanh thu hàng tháng (2023 - 2025)",
@@ -81,7 +40,7 @@ plt.title(
 
 # 5. Update Axis Labels size
 plt.xlabel("Tháng/Năm", fontsize=15, labelpad=15)
-plt.ylabel("Tổng Doanh thu (USD)", fontsize=15, labelpad=15)
+plt.ylabel("Tổng Doanh thu ($)", fontsize=15, labelpad=15)
 
 # 6. Update Scale/Tick size
 plt.xticks(rotation=45, fontsize=13)
@@ -140,7 +99,7 @@ plt.grid(axis="y", linestyle="--", alpha=0.6, zorder=0)
 x = np.arange(len(dow_counts))
 
 # Highlight ngày cao điểm
-peak_days_vi = ["Thứ 4", "Thứ 5"]
+peak_days_vi = ["Thứ 3", "Thứ 4", "Thứ 5"]
 colors = ["#e74c3c" if d in peak_days_vi else "#3498db" for d in dow_counts["Day"]]
 
 bars = plt.bar(
@@ -175,24 +134,25 @@ for bar in bars:
         fontweight="bold",
     )
 
-# Legend ngoài biểu đồ
+# Legend phía dưới biểu đồ để cân đối
 legend_elements = [
-    Patch(facecolor="#e74c3c", label="Ngày cao điểm (Thứ 4, Thứ 5)"),
+    Patch(facecolor="#e74c3c", label="Ngày cao điểm (Thứ 3, Thứ 4, Thứ 5)"),
     Patch(facecolor="#3498db", label="Ngày bình thường"),
 ]
 
 plt.legend(
     handles=legend_elements,
     fontsize=11,
-    loc="upper left",
-    bbox_to_anchor=(1, 1),  # 👈 nằm giữa bên phải
+    loc="upper center",
+    bbox_to_anchor=(0.5, -0.15),
+    ncol=2,
     title="Phân loại",
     title_fontsize=12,
     frameon=True,
 )
 
 plt.tight_layout()
-plt.subplots_adjust(left=0.1, right=0.75)
+# plt.subplots_adjust(left=0.1, right=0.75) # Bỏ phần này để biểu đồ không bị lệch trái
 
 plt.savefig("report/images/dow_trend.png", dpi=300, bbox_inches="tight")
 plt.close()
