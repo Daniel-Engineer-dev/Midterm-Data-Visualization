@@ -53,56 +53,103 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 # ----- TAB 1: THỜI GIAN -----
 with tab1:
-    st.header("📈 Phân tích Xu hướng Thời gian")
+    st.header("📈 Nhóm 1: Phân tích Xu hướng Doanh thu theo Thời gian")
+    st.markdown("Tiêu điểm: Theo dõi biến động doanh thu theo tháng/quý, xác định các tháng cao điểm mùa vụ và thói quen giao dịch theo ngày trong tuần.")
     
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("1. Doanh thu theo tháng-năm")
-        if not plot_df.empty:
-            plot_df['year_month'] = plot_df['order_date'].dt.to_period('M').astype(str)
-            rev_time = plot_df.groupby('year_month')['total_amount'].sum().reset_index()
-            # String label for nice legend
-            rev_time['Trạng Thái'] = ['Tháng Cao Điểm' if x else 'Tháng Thường' for x in rev_time['total_amount'] == rev_time['total_amount'].max()]
+    if not plot_df.empty:
+        # Chuẩn bị dữ liệu thời gian
+        plot_df['order_date'] = pd.to_datetime(plot_df['order_date'])
+        
+        # 1. Biến động theo Tháng
+        st.subheader("1. Xu hướng Doanh thu hàng tháng (2023 - 2025)")
+        rev_time = plot_df.groupby(plot_df['order_date'].dt.to_period('M'))['total_amount'].sum().reset_index()
+        rev_time['month_year'] = rev_time['order_date'].dt.to_timestamp()
+        
+        fig_trend = px.line(rev_time, x='month_year', y='total_amount', markers=True,
+                            title="Biến động Doanh thu tổng thể",
+                            labels={'month_year': 'Thời Gian (Tháng)', 'total_amount': 'Doanh Thu ($)'})
+        fig_trend.update_traces(line_color='#2c3e50', marker=dict(size=8, color='#e74c3c'))
+        fig_trend.update_layout(xaxis_showgrid=False, yaxis_showgrid=True, plot_bgcolor='rgba(0,0,0,0)')
+        st.plotly_chart(fig_trend, use_container_width=True)
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            # 2. Theo Quý (Quarterly)
+            st.subheader("2. Tăng trưởng theo Quý")
+            rev_quarter = plot_df.groupby(plot_df['order_date'].dt.to_period('Q'))['total_amount'].sum().reset_index()
+            rev_quarter['Quarter'] = rev_quarter['order_date'].astype(str)
+            rev_quarter['Tăng trưởng'] = rev_quarter['total_amount'].pct_change() * 100
             
-            fig_time = px.bar(rev_time, x='year_month', y='total_amount', 
-                              color='Trạng Thái', color_discrete_map={'Tháng Cao Điểm': '#e74c3c', 'Tháng Thường': '#3498db'},
-                              title="Doanh Thu Biến Động Qua Thời Gian",
-                              labels={'year_month': 'Thời Gian (Tháng)', 'total_amount': 'Doanh Thu ($)'})
-            st.plotly_chart(fig_time, use_container_width=True)
-        else:
-            st.warning("Không có dữ liệu trong khoảng đã chọn.")
-        
-    with col2:
-        st.subheader("2. Số lượng đơn hàng theo thứ trong tuần")
+            fig_quarter = px.bar(rev_quarter, x='Quarter', y='total_amount', text_auto='.0f',
+                                 title="Tổng Doanh Thu Theo Quý",
+                                 labels={'Quarter': 'Quý', 'total_amount': 'Doanh Thu ($)'},
+                                 hover_data={'Tăng trưởng': ':.1f'})
+            # Highlight Quý 4 (mùa cuối năm)
+            fig_quarter.update_traces(marker_color=['#16a085' if 'Q4' in q else '#34495e' for q in rev_quarter['Quarter']])
+            fig_quarter.update_layout(xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
+            st.plotly_chart(fig_quarter, use_container_width=True)
+            
+        with col2:
+            # 3. Theo Tháng Mùa Vụ (Seasonal)
+            st.subheader("3. Mùa vụ: Doanh thu trung bình theo Tháng")
+            # Cần tính trung bình theo TỪNG tháng duyệt qua các năm
+            monthly_agg = plot_df.groupby([
+                plot_df['order_date'].dt.year.rename('Year'), 
+                plot_df['order_date'].dt.month.rename('Month')
+            ])['total_amount'].sum().reset_index()
+            monthly_agg = monthly_agg.rename(columns={'total_amount': 'Total'})
+            
+            seasonal = monthly_agg.groupby('Month')['Total'].mean().reset_index()
+            seasonal['Month_Str'] = 'Tháng ' + seasonal['Month'].astype(str)
+            
+            # Highlight Tháng 10 và 12
+            seasonal['Trạng thái'] = ['Cao điểm' if m in [10, 12] else ('Thấp điểm' if m == 1 else 'Bình thường') for m in seasonal['Month']]
+            color_map_season = {'Cao điểm': '#e74c3c', 'Thấp điểm': '#7f8c8d', 'Bình thường': '#bdc3c7'}
+            
+            fig_season = px.bar(seasonal, x='Month_Str', y='Total', color='Trạng thái', color_discrete_map=color_map_season,
+                                title="Doanh thu Trung bình theo Mùa vụ (1-12)", text_auto='.0f',
+                                labels={'Month_Str': 'Tháng', 'Total': 'TB Doanh Thu ($)'})
+            fig_season.update_layout(xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
+            st.plotly_chart(fig_season, use_container_width=True)
+            
+        # 4. Giao dịch theo Thứ
+        st.subheader("4. Thói quen mua sắm theo Thứ trong tuần")
         dow_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        dow_counts = plot_df['order_day_of_week'].value_counts().reindex(dow_order, fill_value=0).reset_index()
+        dow_counts = plot_df['order_date'].dt.day_name().value_counts().reindex(dow_order, fill_value=0).reset_index()
         dow_counts.columns = ['Day', 'Orders']
-        dow_counts['Trạng Thái'] = ['Ngày Cao Nhất' if x else 'Bình Thường' for x in dow_counts['Orders'] == dow_counts['Orders'].max()]
+        # Highlight Tue, Wed, Thu
+        dow_counts['Nhóm'] = ['Giữa tuần (Cao điểm)' if d in ['Tuesday', 'Wednesday', 'Thursday'] else 'Ngày khác' for d in dow_counts['Day']]
         
-        fig_dow = px.bar(dow_counts, x='Day', y='Orders', 
-                         color='Trạng Thái', color_discrete_map={'Ngày Cao Nhất': '#e74c3c', 'Bình Thường': '#3498db'},
-                         title="Giao Dịch Theo Các Ngày Trong Tuần",
-                         labels={'Day': 'Thứ', 'Orders': 'Số Đơn Hàng'})
+        fig_dow = px.bar(dow_counts, x='Day', y='Orders', color='Nhóm', text_auto='.0f',
+                         color_discrete_map={'Giữa tuần (Cao điểm)': '#d35400', 'Ngày khác': '#f39c12'},
+                         title="Số lượng đơn hàng phân bổ theo các thứ trong tuần")
+        fig_dow.update_layout(xaxis_showgrid=False, yaxis_showgrid=True, plot_bgcolor='rgba(0,0,0,0)')
         st.plotly_chart(fig_dow, use_container_width=True)
+    else:
+        st.warning("Không có dữ liệu trong khoảng đã chọn.")
 
 # ----- TAB 2: SẢN PHẨM & DANH MỤC -----
 with tab2:
-    st.header("🏷️ Phân tích Sản phẩm & Danh mục")
+    st.header("🏷️ Nhóm 2: Phân tích Sản phẩm & Danh mục")
+    st.markdown("Tiêu điểm: Theo dõi doanh thu theo ngành hàng, đánh giá rủi ro hoàn trả và tối ưu hóa chính sách giảm giá so với biên lợi nhuận thu về.")
     
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("1. Doanh thu theo Danh mục")
+        st.subheader("1. Tổng Doanh Thu theo Danh mục ($)")
         rev_cat = plot_df.groupby('category')['total_amount'].sum().reset_index().sort_values(by='total_amount', ascending=True)
         if not rev_cat.empty:
-            rev_cat['Trạng Thái'] = ['Doanh thu top đầu' if x else 'Bình thường' for x in rev_cat['total_amount'] == rev_cat['total_amount'].max()]
-            fig_cat = px.bar(rev_cat, x='total_amount', y='category', orientation='h', 
-                             color='Trạng Thái', color_discrete_map={'Doanh thu top đầu': '#e74c3c', 'Bình thường': '#3498db'},
-                             title="Tổng Doanh Thu Của Các Danh Mục",
-                             labels={'total_amount': 'Doanh Thu ($)', 'category': 'Danh Mục'})
+            rev_cat['Doanh Thu (Triệu $)'] = rev_cat['total_amount'] / 1e6
+            rev_cat['Trạng Thái'] = ['Nhóm điện tử (Chủ lực)' if x == rev_cat['total_amount'].max() else 'Nhóm khác' for x in rev_cat['total_amount']]
+            
+            fig_cat = px.bar(rev_cat, x='Doanh Thu (Triệu $)', y='category', orientation='h', 
+                             color='Trạng Thái', color_discrete_map={'Nhóm điện tử (Chủ lực)': '#9b59b6', 'Nhóm khác': '#bdc3c7'},
+                             title="Tổng Doanh Thu Của Các Danh Mục (Đơn vị: Triệu USD)",
+                             labels={'category': 'Danh Mục'}, text_auto='.2f')
+            fig_cat.update_layout(xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
             st.plotly_chart(fig_cat, use_container_width=True)
         
     with col2:
-        st.subheader("2. Tỷ lệ hoàn trả (Return Rate)")
+        st.subheader("2. Rủi ro: Tỷ lệ Hoàn trả (Return Rate)")
         ret_cat = plot_df.groupby('category').agg(
             total_orders=('order_id', 'count'),
             returns=('is_returned', 'sum')
@@ -111,26 +158,55 @@ with tab2:
             ret_cat['return_rate'] = (ret_cat['returns'] / ret_cat['total_orders']) * 100
             ret_cat = ret_cat.sort_values(by='return_rate', ascending=True)
             
-            ret_cat['Trạng Thái'] = ['Rủi ro hoàn trả cao nhất' if x else 'Bình thường' for x in ret_cat['return_rate'] == ret_cat['return_rate'].max()]
+            ret_cat['Trạng Thái'] = ['Cảnh báo (Rủi ro cao)' if x == ret_cat['return_rate'].max() else 'Kiểm soát tốt' for x in ret_cat['return_rate']]
             fig_ret = px.bar(ret_cat, x='return_rate', y='category', orientation='h', 
-                             color='Trạng Thái', color_discrete_map={'Rủi ro hoàn trả cao nhất': '#c0392b', 'Bình thường': '#95a5a6'},
-                             title="Tỷ lệ hoàn trả (%) Theo Danh Mục",
-                             labels={'return_rate': 'Tỷ Lệ Hoàn Trả (%)', 'category': 'Danh Mục'})
+                             color='Trạng Thái', color_discrete_map={'Cảnh báo (Rủi ro cao)': '#e74c3c', 'Kiểm soát tốt': '#95a5a6'},
+                             title="Tỷ lệ đơn hàng bị hoàn trả (%)",
+                             labels={'return_rate': 'Tỷ Lệ Hoàn Trả (%)', 'category': 'Danh Mục'}, text_auto='.2f')
+            fig_ret.update_layout(xaxis_showgrid=False, yaxis_showgrid=False, plot_bgcolor='rgba(0,0,0,0)')
             st.plotly_chart(fig_ret, use_container_width=True)
         
-    st.subheader("3. Mức Giảm Giá vs Biên Lợi Nhuận")
+    st.subheader("3. Tương quan: Mức Giảm Giá vs Biên Lợi Nhuận")
     disc_profit = plot_df.groupby('discount').agg(
         avg_profit=('profit_margin','mean'),
         orders=('order_id','count')
     ).reset_index()
+    
     if not disc_profit.empty:
         disc_profit['discount_pct'] = disc_profit['discount'] * 100
-        disc_profit['Nhóm'] = ['Hiệu quả cao nhất (0%)' if d == 0 else 'Có giảm giá' for d in disc_profit['discount_pct']]
+        disc_profit['Nhóm'] = ['Biên LN khổng lồ (Không Sales)' if d == 0 else 'Nhóm chạy Sales' for d in disc_profit['discount_pct']]
         
-        fig_scatter = px.scatter(disc_profit, x='discount_pct', y='avg_profit', size='orders', 
-                                 color='Nhóm', color_discrete_map={'Hiệu quả cao nhất (0%)': '#27ae60', 'Có giảm giá': '#e67e22'},
-                                 title="Tương Quan Bậc Giảm Giá và Biên lợi nhuận trung bình",
-                                 labels={'discount_pct': 'Giảm Giá (%)', 'avg_profit': 'Biên Lợi Nhuận TB ($)', 'orders': 'Số đơn'})
+        # KHÔNG dùng text= trong px.scatter vì sẽ bị áp dụng sang cả line trace → gây "undefined"
+        # Tách riêng: scatter không có text, sau đó add_annotation riêng từng điểm
+        fig_scatter = px.scatter(disc_profit, x='discount_pct', y='avg_profit', size='orders',
+                                 color='Nhóm', color_discrete_map={'Biên LN khổng lồ (Không Sales)': '#2ecc71', 'Nhóm chạy Sales': '#f39c12'},
+                                 labels={'discount_pct': 'Mức Giảm Giá (%)', 'avg_profit': 'Biên Lợi Nhuận TB ($)', 'orders': 'Số Lượng Giao Dịch'},
+                                 size_max=35)
+        
+        # Thêm label số đơn bằng annotation thủ công (không ảnh hưởng line trace)
+        for _, row in disc_profit.iterrows():
+            fig_scatter.add_annotation(
+                x=row['discount_pct'], y=row['avg_profit'],
+                text=f"{int(row['orders']):,} đơn",
+                showarrow=False,
+                yshift=-22,
+                font=dict(size=10, color='#555')
+            )
+        
+        # Thêm đường nối mờ thể hiện xu hướng nghịch biến — ẩn khỏi legend và hover
+        import plotly.graph_objects as go
+        fig_scatter.add_trace(go.Scatter(
+            x=disc_profit['discount_pct'], y=disc_profit['avg_profit'],
+            mode='lines',
+            line=dict(color='rgba(0,0,0,0.2)', dash='dot', width=1.5),
+            showlegend=False,
+            hoverinfo='skip'
+        ))
+        
+        fig_scatter.update_layout(xaxis_showgrid=True, yaxis_showgrid=True, plot_bgcolor='rgba(0,0,0,0)', title=None)
+        
+        # Thêm ghi chú hiển thị cứng trên giao diện Streamlit thay vì dựa vào Title của Plotly
+        st.markdown("<p style='font-style: italic; color: #555; font-size: 0.9em; text-align: center'>Kích thước bong bóng (Size) tỷ lệ thuận với <b>lượng đơn hàng</b> phát sinh ở mức giảm giá đó.</p>", unsafe_allow_html=True)
         st.plotly_chart(fig_scatter, use_container_width=True)
 
 
