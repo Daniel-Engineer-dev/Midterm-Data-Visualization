@@ -136,28 +136,79 @@ with tab2:
 
 # ----- TAB 3: KHÁCH HÀNG -----
 with tab3:
-    st.header("🤝 Phân tích Khách hàng")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("1. Tổng Chi Tiêu Bằng Giới Tính")
-        fig_gender = px.pie(plot_df, names='customer_gender', values='total_amount', 
-                            title="Tỷ trọng doanh thu theo Giới tính", hole=0.4)
-        st.plotly_chart(fig_gender, use_container_width=True)
+    st.header("🤝Phân tích Khách hàng")
+    st.markdown("Tiêu điểm: Hành vi chi tiêu của khách hàng theo độ tuổi, giới tính, tỷ lệ sử dụng phương thức thanh toán và vinh danh Top 10 khách hàng VIP.")
+    
+    # Chuẩn bị dữ liệu như trong script báo cáo Nhóm 3
+    # Chỉ tính các đơn giao dịch thành công để tính chi tiêu thực
+    if not plot_df.empty:
+        df_valid = plot_df[plot_df['is_returned'] == 0].copy()
+        bins = [18, 25, 35, 45, 55, 70]
+        labels = ['18-24', '25-34', '35-44', '45-54', '55-69']
+        df_valid['age_group'] = pd.cut(df_valid['customer_age'], bins=bins, labels=labels, right=False)
         
-    with col2:
-        st.subheader("2. Phương thức thanh toán ưu chuộng")
-        pm_counts = plot_df['payment_method'].value_counts().reset_index()
-        pm_counts.columns = ['Method', 'Count']
-        if not pm_counts.empty:
-            pm_counts['Trạng Thái'] = ['Phổ biến nhất' if x else 'Bình thường' for x in pm_counts['Count'] == pm_counts['Count'].max()]
-            fig_pm = px.bar(pm_counts, x='Method', y='Count', title="Sự phổ biến của Phương Thức Thanh Toán", 
-                            color='Trạng Thái', color_discrete_map={'Phổ biến nhất': '#8e44ad', 'Bình thường': '#bdc3c7'})
-            st.plotly_chart(fig_pm, use_container_width=True)
-        
-    st.subheader("3. Phân bổ độ tuổi mua sắm")
-    fig_age = px.histogram(plot_df, x='customer_age', nbins=20, title="Phân bổ Độ tuổi Khách hàng",
-                           labels={'customer_age': 'Tuổi'})
-    st.plotly_chart(fig_age, use_container_width=True)
+        st.subheader("1. Tổng Chi Tiêu Thực Tế theo Nhóm Tuổi & Giới Tính")
+        if not df_valid.empty:
+            t2 = df_valid.groupby(['age_group', 'customer_gender'], observed=True)['total_amount'].sum().reset_index()
+            t2['total_amount_k'] = t2['total_amount'] / 1000
+            
+            # [Visual Encoding]: Position (Y) cho Quantitative, Color (Hue) cho Categorical
+            # [Color Theory]: Dùng Categorical/Qualitative Palette phân tách rõ ràng giới tính (Colorblind-friendly considerations)
+            # [Interaction]: Custom tooltip cho Details-on-Demand
+            fig_spend_age = px.bar(t2, x='age_group', y='total_amount_k', color='customer_gender', barmode='group',
+                                   title="Tổng chi tiêu (Nghìn USD) theo Nhóm Tuổi và Giới Tính",
+                                   color_discrete_map={'Female': '#D63384', 'Male': '#0D6EFD', 'Other': '#198754'},
+                                   labels={'age_group': 'Nhóm tuổi', 'total_amount_k': 'Tổng chi tiêu (K$)', 'customer_gender': 'Giới tính'},
+                                   text_auto='.0f',
+                                   hover_data={'total_amount_k': ':.1f'}) # Details-on-demand
+            
+            # Ép chữ luôn nằm ngang (không bị dọc) và nới rộng trục y để hiện lưới 800k$
+            fig_spend_age.update_traces(textposition='outside', textangle=0)
+            
+            # [Perception]: Dọn dẹp gridlines để tuân thủ Data-Ink Ratio, tập trung vào Data
+            fig_spend_age.update_layout(
+                yaxis_showgrid=True, 
+                xaxis_showgrid=False, 
+                plot_bgcolor='rgba(0,0,0,0)',
+                yaxis=dict(range=[0, t2['total_amount_k'].max() * 1.15]) # Nới rộng trục Y thêm 15%
+            )
+            st.plotly_chart(fig_spend_age, use_container_width=True)
+            
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("2. Tỉ lệ Phương thức Thanh toán theo Tuổi")
+            if not df_valid.empty:
+                t6 = df_valid.groupby(['age_group', 'payment_method'], observed=True).size().unstack(fill_value=0)
+                t6_pct = t6.div(t6.sum(axis=1), axis=0) * 100
+                t6_pct = t6_pct.round(1)
+                
+                # [Visual Encoding & Color Theory]: Dùng Sequential Colormap (Blues) ánh xạ Value sang Color Luminance
+                fig_heat = px.imshow(t6_pct, text_auto=True, color_continuous_scale='Blues',
+                                     title="Heatmap Tỉ lệ Phương thức Thanh toán (%)",
+                                     labels=dict(x="Phương thức", y="Nhóm tuổi", color="Tỉ lệ %"))
+                fig_heat.update_yaxes(autorange="reversed")
+                st.plotly_chart(fig_heat, use_container_width=True)
+                
+        with col2:
+            st.subheader("3. Top 10 Khách Hàng VIP (Customer ID)")
+            if not df_valid.empty:
+                top_c = df_valid.groupby('customer_id', observed=True)['total_amount'].sum().sort_values(ascending=False).head(10).reset_index()
+                top_c = top_c.sort_values('total_amount', ascending=True)
+                
+                # [Perception - Pre-attentive processing]: Tự động gán Pop-out Color để đập vào mắt điểm cao nhất (Red vs Blue)
+                top_c['Trạng Thái'] = ['Top 1 VIP' if x == top_c['total_amount'].max() else 'VIP Khác' for x in top_c['total_amount']]
+                
+                fig_top10 = px.bar(top_c, x='total_amount', y='customer_id', orientation='h',
+                                   title="Top 10 Khách hàng có Tổng Chi tiêu Cao nhất",
+                                   color='Trạng Thái',
+                                   color_discrete_map={'Top 1 VIP': '#e74c3c', 'VIP Khác': '#3498db'},
+                                   labels={'total_amount': 'Tổng tiền ($)', 'customer_id': 'Mã KH', 'Trạng Thái': 'Phân Loại'},
+                                   text_auto='.0f')
+                
+                fig_top10.update_layout(yaxis_showgrid=False, xaxis_showgrid=True, plot_bgcolor='rgba(0,0,0,0)')
+                st.plotly_chart(fig_top10, use_container_width=True)
+    else:
+        st.warning("Không có dữ liệu trong khoảng đã chọn.")
 
 
 # ----- TAB 4: ĐỊA LÝ & VẬN CHUYỂN -----
