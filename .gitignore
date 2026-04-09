@@ -41,3 +41,6 @@ htmlcov/
 
 # MacOS
 .DS_Store
+
+# Skills
+skills/

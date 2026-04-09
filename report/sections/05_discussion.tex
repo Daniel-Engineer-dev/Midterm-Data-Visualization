@@ -9,17 +9,15 @@ Trong quá trình thực hiện dự án, nhóm đã gặp một số điểm đ
     \item \textbf{Lựa chọn biểu đồ:} Việc quyết định chọn biểu đồ nào để thể hiện các mối quan hệ phức tạp (như Heatmap hay Scatter plot cho sự kết hợp giữa địa lý và doanh thu) mất khá nhiều thời gian để tối ưu hóa.
 \end{itemize}
 
-\subsection{Những hạn chế của thiết kế hiện tại}
-
+\subsection{Ưu điểm của thiết kế hiện tại}
 \begin{itemize}
-    \item \textbf{Tương tác chưa tối ưu:} Dashboard hiện tại chủ yếu là các hình ảnh tĩnh, độ tương tác giữa người dùng và dữ liệu chưa cao (như lọc dữ liệu theo thời gian thực).
-    \item \textbf{Thiếu dữ liệu chi tiết:} Một số biến số như "Phản hồi khách hàng" chưa đủ chi tiết để phân tích sâu hơn về lý do trả hàng.
+    \item \textbf{Dashboard tương tác Streamlit:} Nhóm đã triển khai thành công hệ thống Dashboard trực tuyến, cho phép người dùng lọc dữ liệu linh hoạt theo Khu vực (Region) và Danh mục (Category), giúp tăng cường khả năng khám phá dữ liệu so với các biểu đồ tĩnh.
+    \item \textbf{Tính nhất quán:} Hệ thống Visual Encoding được đồng nhất giữa báo cáo tĩnh và dashboard tương tác, giúp người đọc dễ dàng đối chiếu kết quả.
 \end{itemize}
 
-\subsection{Hướng phát triển}
-
+\subsection{Hạn chế và Hướng phát triển}
 \begin{itemize}
-    \item \textbf{Triển khai Dashboard tương tác:} Chuyển đổi các thiết kế tĩnh sang các công cụ như Streamlit, Dash hoặc Tableau để người dùng có thể lọc và tùy chỉnh chế độ xem.
-    \item \textbf{Tích hợp mô hình dự báo:} Sử dụng Machine Learning để dự đoán doanh thu trong các tháng tới dựa trên xu hướng hiện có.
-    \item \textbf{Mở rộng dữ liệu:} Kết hợp thêm các nguồn dữ liệu từ các nền tảng mạng xã hội để phân tích thêm về xu hướng thị trường.
+    \item \textbf{Dữ liệu thời gian thực:} Hiện tại hệ thống dựa trên tệp CSV tĩnh. Hướng phát triển tiếp theo là kết nối Dashboard trực tiếp với cơ sở dữ liệu (SQL) để cập nhật số liệu theo thời gian thực.
+    \item \textbf{Tích hợp mô hình dự báo:} Sử dụng Machine Learning (như mô hình ARIMA hoặc Prophet) để dự đoán doanh thu trong các tháng tới dựa trên xu hướng hiện có ngay trên giao diện Dashboard.
+    \item \textbf{Phân tích Sentiment:} Kết hợp thêm các nguồn dữ liệu từ đánh giá khách hàng (Review) để phân tích sâu hơn về lý do trả hàng bên cạnh yếu tố chi phí vận chuyển.
 \end{itemize}

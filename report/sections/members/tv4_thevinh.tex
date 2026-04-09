@@ -1,8 +1,43 @@
 % --- tv4_thevinh.tex ---
 % Phân tích Nhóm 4: Phân bổ Khu vực & Vận chuyển
 
-\noindent\textbf{Kết quả phân tích dự kiến:}
-\begin{itemize}
-    \item Bản đồ nhiệt hoặc biểu đồ cột theo khu vực địa lý.
-    \item Thống kê thời gian giao hàng và chi phí vận chuyển.
-\end{itemize}
+\noindent\textbf{Kết quả phân tích \& Trực quan hóa:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/region_revenue.png}
+    \caption{Doanh thu và Số lượng đơn hàng phân bổ theo Khu vực}
+    \label{fig:region_revenue}
+\end{figure}
+
+\textbf{1. Phân bổ Doanh thu Địa lý}
+\\
+Phân phối đơn hàng trên hệ thống có sự chênh lệch khá rõ nét giữa các khu vực địa lý. Căn cứ vào Biểu đồ \ref{fig:region_revenue}, \textbf{Khu vực Nam (South)} và \textbf{Bắc (North)} được tô màu xanh chủ đạo là hai thị trường trọng điểm, với lượng giao dịch đạt trên 7,500 đơn và tạo ra mức doanh thu dồi dào xấp xỉ \$1.2 triệu mỗi vùng. Trái lại, \textbf{Trung tâm (Central)} là khu vực thưa thớt nhất (chỉ 5,632 đơn) mang lại doanh thu \$878 nghìn. Việc nhận diện đúng các khu vực chủ lực và lẻ tẻ sẽ giúp nhà bán lẻ tối ưu hóa chi phí lưu kho, đồng thời phân bổ lại ngân sách chạy quảng cáo (Marketing Campaigns) nhằm kích cầu ở khu vực miền Trung tâm.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/shipping_time.png}
+    \caption{Tương quan giữa Tốc độ giao hàng \& Chi phí vận chuyển}
+    \label{fig:shipping_time}
+\end{figure}
+
+\textbf{2. Hiệu suất Logistics \& Giao Nhận}
+\\
+Biểu đồ \ref{fig:shipping_time} đánh giá thời gian chênh lệch giữa ngày đặt và ngày nhận (Delivery Time gap) hé lộ một điểm đen về logistic. Khu vực \textbf{Đông (East)} ghi nhận tốc độ giao hàng chậm nhất, trung bình mất lên tới gần 6 ngày để kiện hàng đến tay người mua, và đồng thời phải chịu chi phí vận chuyển cao nhất hệ thống (\$6.20/đơn). Ở chiều ngược lại, khu vực \textbf{Bắc (North)} lại có khả năng vận hành logistic xuất sắc khi chỉ mất chưa tới 4 ngày làm việc với mức cước thấp (\$6.11/đơn). Khảo sát từ các tổ chức e-commerce luôn chỉ ra rằng thời gian chờ đợi kéo dài là một trong những nguyên nhân hàng đầu khiến khách hàng hủy phần đơn trung gian hoặc phát sinh tỷ lệ hoàn hàng (Return Rate) cao. 
+\\
+\\
+\textbf{3. Tương quan Cước phí và Tỷ lệ hoàn trả (Giải quyết Câu hỏi 12)}
+\\
+Phân tích sâu hơn sự cố ở Vùng Đông, Câu hỏi 12 đặt ra giả thuyết về mối liên hệ giữa Cước vận chuyển và Tỷ lệ hoàn trả (Return Rate).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/cost_return_corr.png}
+    \caption{Tương quan tuyến tính (Pearson = +0.97) giữa Chi phí vận chuyển và Tỷ lệ hoàn hàng}
+    \label{fig:cost_return}
+\end{figure}
+
+Biểu đồ Scatter Plot \ref{fig:cost_return} (hỗ trợ bởi đường xu hướng Trendline) đã chứng minh mối tương quan thuận cực kỳ mạnh mẽ (hệ số Pearson xấp xỉ \textbf{+0.97}) giữa hai biến số này. Cụ thể, khi cước phí ở mức rẻ (\$1-\$2), tỷ lệ bom hàng chỉ nằm ngưỡng rất an toàn là 2.5\%. Tuy nhiên, khi cước phí bị đẩy lên mức đỉnh (cao hơn \$10), mức độ từ chối nhận hàng tăng vọt chóng mặt lên \textbf{hơn 7.1\%}. Hiện tượng này xảy ra vì tâm lý khách hàng khi phải chịu phí ship quá cao thường dẫn đến rủi ro "hối hận sau khi mua" (Buyer's Remorse) cực lớn, đặc biệt nếu kết hợp với thời gian giao lâu như ở Khu vực Đông.
+
+\vspace{0.3cm}
+\textbf{4. Đề xuất chiến lược (Actionable Insights):} Dựa vào biểu đồ \ref{fig:cost_return}, mức phí vận chuyển lý tưởng để nén Tỷ lệ hoàn trả ở mức an toàn (dưới 5\%) là duy trì cước phí \textbf{dưới ngưỡng \$6.00}. Hệ thống cần ưu tiên tái cơ cấu cước phí, áp dụng trợ giá vận chuyển (Freeship voucher/Giao hàng đồng giá) hoặc đổi mặt bằng đối tác giao hàng nhanh (NinjaVan, GHTK, v.v) ở riêng khu vực \textbf{Đông (East)}. Việc chấp nhận rủi ro đầu tư thêm kho trạm trung chuyển (Fulfillment Centers) tại đây sẽ làm giảm triệt để khoảng cách vật lý của đơn vị giao nhận, từ đó hạ giá vận chuyển, đập tan rủi ro hủy đơn và mang lại biên lợi nhuận ròng tối đa cho tập đoàn.
