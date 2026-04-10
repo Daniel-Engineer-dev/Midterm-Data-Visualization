@@ -1,77 +1,140 @@
 \section{Thiết kế \& Kết quả (The "How")}
 
-\subsection{Screenshot toàn bộ Dashboard}
-
-Dưới đây là một ảnh chụp màn hình tổng thể của Dashboard để người dùng có thể hình dung được quy trình làm việc và layout thiết kế:
+\subsection{Tổng quan Dashboard}
+Dưới đây là hình ảnh tổng thể của Dashboard được xây dựng trên nền tảng Streamlit, thể hiện layout thiết kế chuyên nghiệp, hiện đại và khả năng lọc dữ liệu đa chiều (Khu vực, Danh mục, Giới tính, Thời gian).
 
 \begin{figure}[H]
     \centering
-    \setlength{\fboxsep}{10pt}
-    \setlength{\fboxrule}{1pt}
-    \fbox{
-        \begin{minipage}{0.9\textwidth}
-            \centering
-            \vspace{1cm}
-            \textbf{[MÔ HÌNH HÓA TOÀN BỘ DASHBOARD]}
-            \\[20pt]
-            \textit{\small (Chèn ảnh vào đây --- Screenshot Dashboard.png)}
-            \vspace{1cm}
-        \end{minipage}
-    }
-    \caption{Phác thảo thiết kế Dashboard cho dự án}
+    \includegraphics[width=1\textwidth]{images/dashboard/db_main_overview.png}
+    \caption{Giao diện tổng thể Dashboard Analytics}
     \label{fig:full_dashboard}
 \end{figure}
 
-\subsection{Trình bày chi tiết từng biểu đồ thành phần}
+\subsection{Chi tiết thiết kế các thành phần trực quan}
+Báo cáo sử dụng kết hợp các biểu đồ phù hợp với từng loại câu hỏi phân tích (theo nhóm Task 1-4). Mỗi biểu đồ được thiết kế dựa trên các nguyên lý trực quan hóa (Mark \& Channel).
 
-Trong phần này, mỗi biểu đồ sẽ được phân tích chi tiết dựa trên kênh trực quan (Mark/Channel) và những nhận xét rút ra:
-
-\subsubsection{Xu hướng Doanh thu theo Tháng}
-
+\subsubsection{Nhóm 1: Phân tích Xu hướng Thời gian}
 \begin{figure}[H]
     \centering
-    \fbox{
-        \begin{minipage}{0.6\textwidth}
-            \centering
-            \vspace{0.5cm}
-            \textbf{[Line Chart --- Doanh thu theo thời gian]}
-            \vspace{0.5cm}
-        \end{minipage}
-    }
-    \caption{Biểu đồ đường thể hiện xu hướng doanh thu}
-    \label{fig:line_revenue}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_monthly_revenue.png}
+        \caption{Xu hướng Doanh thu tháng}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_revenue_growth.png}
+        \caption{Tỷ lệ Tăng trưởng hàng tháng}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_quarterly_seasonal.png}
+        \caption{Tăng trưởng Quý \& Mùa vụ}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_day_of_week.png}
+        \caption{Phân bổ theo Thứ trong tuần}
+    \end{subfigure}
+    \vspace{0.3cm}
+    \caption{Thiết kế trực quan cho Nhóm 1: Xu hướng Doanh thu}
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Giải thích thiết kế:}
-        \begin{itemize}
-            \item \textbf{Mark:} Line (Các đường nối giữa các điểm dữ liệu).
-            \item \textbf{Channel:} Vertical position (trục Y) biểu thị doanh thu; Horizontal position (trục X) biểu thị thời gian. 
-        \end{itemize}
-    \item \textbf{Nhận xét (Insight):} Doanh thu có sự tăng trưởng mạnh vào quý 4 do các dịp lễ và chương trình khuyến mãi.
+    \item \textbf{Visual Encoding:} 
+    \begin{itemize}
+        \item \textbf{Mark:} Line (Dòng kẻ), Bar (Cột).
+        \item \textbf{Channel:} Vertical position (Trục Y) biểu diễn doanh thu; Horizontal position (Trục X) biểu diễn các mốc thời gian; Color (Màu sắc) dùng highlight mùa vụ.
+    \end{itemize}
 \end{itemize}
 
-\subsubsection{Phân tích Doanh thu theo Danh mục}
-
+\subsubsection{Nhóm 2: Phân tích Sản phẩm \& Danh mục}
 \begin{figure}[H]
     \centering
-    \fbox{
-        \begin{minipage}{0.6\textwidth}
-            \centering
-            \vspace{0.5cm}
-            \textbf{[Bar Chart --- Doanh thu theo danh mục]}
-            \vspace{0.5cm}
-        \end{minipage}
-    }
-    \caption{Biểu đồ cột so sánh các danh mục}
-    \label{fig:bar_category}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_category_performance.png}
+        \caption{Doanh thu \& Hoàn trả theo Danh mục}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_discount_margin.png}
+        \caption{Tương quan Giảm giá \& Lợi nhuận}
+    \end{subfigure}
+    \vspace{0.3cm}
+    \caption{Thiết kế trực quan cho Nhóm 2: Hiệu suất Sản phẩm}
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{Giải thích thiết kế:}
-        \begin{itemize}
-            \item \textbf{Mark:} Bar (Các cột đứng).
-            \item \textbf{Channel:} Length (Chiều dài cột) biểu thị doanh thu; Categorical color (Màu sắc) để phân biệt các nhóm danh mục.
-        \end{itemize}
-    \item \textbf{Nhận xét (Insight):} Danh mục "Electronics" mang lại doanh thu cao nhất nhưng lại có tỷ lệ hoàn trả tương đối cao so với các nhóm khác.
+    \item \textbf{Visual Encoding:} 
+    \begin{itemize}
+        \item \textbf{Mark:} Bar, Point (Điểm dữ liệu).
+        \item \textbf{Channel:} Length (Độ dài cột) so sánh doanh thu; Position (Toạ độ) và Size (Kích thước điểm) thể hiện quy mô đơn hàng và tương quan lợi nhuận.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Nhóm 3: Phân tích Khách hàng (Nhân khẩu học)}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_customer_demographics.png}
+        \caption{Tổng chi tiêu theo Nhân khẩu học}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_avg_spending.png}
+        \caption{Chi tiêu Trung bình theo Nhân khẩu học}
+    \end{subfigure}
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_payment_vip.png}
+        \caption{Thanh toán \& Top 10 VIP}
+    \end{subfigure}
+    \vspace{0.3cm}
+    \caption{Thiết kế trực quan cho Nhóm 3: Phân đoạn Khách hàng}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Visual Encoding:} 
+    \begin{itemize}
+        \item \textbf{Mark:} Bar (Cột), Color/Area (Diện tích màu trên Heatmap).
+        \item \textbf{Channel:} Position (Tọa độ) so sánh chi tiêu khách hàng; Color Hue/Saturation (Độ đậm nhạt màu sắc) thể hiện mật độ ưu tiên phương thức thanh toán.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Nhóm 4: Phân bổ Địa lý \& Logistics}
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_logistics_regional.png}
+        \caption{Doanh thu vùng \& Tốc độ giao hàng}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/dashboard/db_shipping_return_corr.png}
+        \caption{Tương quan Cước phí \& Hoàn hàng}
+    \end{subfigure}
+    \vspace{0.3cm}
+    \caption{Thiết kế trực quan cho Nhóm 4: Vận hành \& Regional Insights}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Visual Encoding:} 
+    \begin{itemize}
+        \item \textbf{Mark:} Bar, Point, Line (Trendline).
+        \item \textbf{Channel:} Position (Theo vùng địa lý); Color (Màu sắc) phân biệt các khu vực; Slope (Độ dốc của Trendline) thể hiện sức mạnh của mối tương quan giữa cước phí và tỷ lệ hoàn hàng.
+    \end{itemize}
 \end{itemize}

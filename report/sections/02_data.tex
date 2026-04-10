@@ -1,14 +1,40 @@
 \section{Giới thiệu Dữ liệu}
 
-\subsection{Nguồn gốc}
+\subsection{Tổng quan về Bộ dữ liệu}
 
-Bộ dữ liệu này được chọn từ nền tảng \textbf{Kaggle}, cụ thể là \textbf{E-commerce Sales Transactions Dataset} (tác giả: Arif Miah). Đây là tập dữ liệu mô phỏng thực tế mua sắm trực tuyến với quy mô 34.500 bản ghi giao dịch.
+Dữ liệu được sử dụng trong báo cáo này là \textbf{E-commerce Sales Transactions Dataset} (tác giả: Arif Miah), được khai thác từ nền tảng \href{https://www.kaggle.com/datasets/miadul/e-commerce-sales-transactions-dataset}{\textbf{Kaggle}}. Với quy mô \textbf{34.500 bản ghi}, bộ dữ liệu mô phỏng các hoạt động giao dịch thương mại điện tử thực tế, cung cấp một cái nhìn toàn diện về hành vi mua sắm trực tuyến thông qua các nhóm thông tin chính:
 
-\subsection{Mô tả sơ lược}
+\begin{itemize}
+    \item \textbf{Thông tin giao dịch:} Mã đơn hàng (\texttt{order\_id}), ngày đặt hàng, trạng thái trả hàng.
+    \item \textbf{Thông tin sản phẩm:} Mã sản phẩm (\texttt{product\_id}), tên loại danh mục, đơn giá, chi phí vận chuyển.
+    \item \textbf{Thông tin khách hàng:} Mã người dùng (\texttt{customer\_id}), dữ liệu nhân khẩu học (tuổi, giới tính) và khu vực địa lý.
+    \item \textbf{Chỉ số tài chính:} Số lượng, mức chiết khấu, tổng số tiền thanh toán và biên lợi nhuận.
+\end{itemize}
 
-Dữ liệu bao gồm các thông tin chi tiết về từng giao dịch như: đơn hàng (order id), khách hàng (customer id), sản phẩm (product id), loại danh mục, giá cả, chi phí vận chuyển, biên lợi nhuận, ngày đặt hàng và các thông tin nhân khẩu học (tuổi, giới tính, khu vực). 
 
-\subsection{Link tải dữ liệu}
+\subsection{Quy trình Làm sạch và Tiền xử lý dữ liệu}
 
-Người dùng có thể truy cập và tải bộ dữ liệu tại đường dẫn sau: 
-\url{https://www.kaggle.com/datasets/miadul/e-commerce-sales-transactions-dataset}
+Để đảm bảo tính toàn vẹn và nâng cao chất lượng dữ liệu trước khi thực hiện trực quan hóa, quy trình tiền xử lý đã được thực hiện thông qua ngôn ngữ lập trình Python và thư viện Pandas với các bước cụ thể sau:
+
+\begin{enumerate}
+    \item \textbf{Loại bỏ dữ liệu trùng lặp:} 
+    Sử dụng phương pháp lọc các hàng có giá trị hoàn toàn giống nhau để đảm bảo mỗi giao dịch là duy nhất trong tập dữ liệu.
+    
+    \item \textbf{Xử lý giá trị thiếu (Handling Missing Values):}
+    \begin{itemize}
+        \item \textit{Bản ghi không hợp lệ:} Các dòng bị thiếu thông tin tại các trường định danh cốt lõi như \texttt{order\_id} và \texttt{customer\_id} sẽ bị loại bỏ hoàn toàn.
+        \item \textit{Xử lý dữ liệu số:} Đối với các trường dữ liệu định lượng bao gồm: \texttt{price}, \texttt{discount}, \texttt{quantity}, \texttt{total\_amount}, \texttt{shipping\_cost}, và \texttt{profit\_margin}, các giá trị thiếu được thay thế bằng giá trị \textbf{trung vị (median)} của từng cột tương ứng. Phương pháp này giúp duy trì phân phối của dữ liệu và hạn chế ảnh hưởng tiêu cực từ các giá trị ngoại lai (outliers).
+    \end{itemize}
+
+    \item \textbf{Chuẩn hóa định dạng thời gian:}
+    Cột \texttt{order\_date} được chuyển đổi từ dạng văn bản sang định dạng \texttt{datetime}. Những bản ghi có định dạng ngày tháng không hợp lệ (không thể chuyển đổi) sẽ bị loại bỏ để đảm bảo tính đồng nhất cho các phân tích chuỗi thời gian.
+
+    \item \textbf{Kỹ thuật đặc trưng (Feature Engineering):}
+    Nhằm tạo điều kiện cho các phân tích đa chiều, các biến đặc trưng mới đã được tạo ra từ dữ liệu gốc:
+    \begin{itemize}
+        \item \textit{Phân rã thời gian:} Trích xuất thành các biến \texttt{order\_year} (Năm), \texttt{order\_quarter} (Quý), \texttt{order\_month} (Tháng), và \texttt{order\_day\_of\_week} (Thứ trong tuần) từ trường \texttt{order\_date}.
+        \item \textit{Biến đổi hạng mục:} Chuyển đổi trạng thái trả hàng từ dạng văn bản (\textit{Yes/No}) ở cột \texttt{returned} sang biến nhị phân \texttt{is\_returned} (1 cho giao dịch bị trả lại và 0 cho các trường hợp còn lại), giúp tối ưu hóa việc tính toán các chỉ số thống kê.
+    \end{itemize}
+\end{enumerate}
+
+
