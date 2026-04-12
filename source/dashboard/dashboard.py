@@ -39,7 +39,7 @@ COLORS = {
 }
 
 # Plotly chart template — consistent across all tabs
-CHART_FONT = dict(family="Inter, -apple-system, sans-serif", size=12, color=COLORS['text'])
+CHART_FONT = dict(family="'Fira Sans', 'Inter', -apple-system, sans-serif", size=12, color=COLORS['text'])
 CHART_LAYOUT = dict(
     plot_bgcolor='rgba(0,0,0,0)',
     paper_bgcolor='rgba(0,0,0,0)',
@@ -58,57 +58,90 @@ SEQ_GENDER = {'Female': '#EC4899', 'Male': '#3B82F6', 'Other': '#10B981'}
 # ══════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
-/* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* ── Google Fonts: Dashboard Data pairing (UI Pro Max) ── */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700;800&display=swap');
 
 /* ── Global Reset & Typography ── */
 html, body, [class*="css"] {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* ── Streamlit overrides ── */
-.stApp { background: linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 50%, #F8FAFC 100%); }
-header[data-testid="stHeader"] { background: transparent; }
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%) !important;
+.stApp {
+    background: linear-gradient(170deg, #F8FAFC 0%, #EFF6FF 40%, #F0F4FF 70%, #F8FAFC 100%);
+    background-attachment: fixed;
 }
-[data-testid="stSidebar"] * { color: #CBD5E1 !important; }
+.block-container {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+[data-testid="stSidebarUserContent"] {
+    padding-top: 2rem !important;
+}
+header[data-testid="stHeader"] { background: transparent; }
+
+/* ── Sidebar: Light theme with blue accent ── */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F0F4FF 40%, #EBF0FF 100%) !important;
+    border-right: 1px solid rgba(59,130,246,0.12) !important;
+    box-shadow: 4px 0 24px rgba(59,130,246,0.06);
+}
+[data-testid="stSidebar"]::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+[data-testid="stSidebar"] * { color: #1E293B !important; }
 [data-testid="stSidebar"] .stSelectbox label,
 [data-testid="stSidebar"] .stMultiSelect label {
-    color: #94A3B8 !important;
+    color: #475569 !important;
     font-weight: 600 !important;
-    font-size: 0.8rem !important;
+    font-size: 0.78rem !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
+    letter-spacing: 0.06em !important;
+    font-family: 'Fira Sans', sans-serif !important;
 }
-[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.08) !important; }
+[data-testid="stSidebar"] hr { border-color: rgba(30,64,175,0.1) !important; }
 
-/* ── Dashboard Title Area ── */
+/* ── Dashboard Title Area: Light blue gradient with shimmer ── */
 .dashboard-header {
-    background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%);
-    border-radius: 16px;
-    padding: 32px 40px;
-    margin-bottom: 24px;
+    background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 50%, #E0E7FF 100%);
+    border-radius: 18px;
+    padding: 22px 36px;
+    margin-bottom: 16px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 24px rgba(15,23,42,0.12);
+    box-shadow: 0 8px 32px rgba(59,130,246,0.1), 0 2px 8px rgba(139,92,246,0.06);
+    border: 1px solid rgba(59,130,246,0.15);
 }
 .dashboard-header::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(ellipse at 20% 50%, rgba(59,130,246,0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(139,92,246,0.1) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 15% 50%, rgba(59,130,246,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 20%, rgba(139,92,246,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(6,182,212,0.04) 0%, transparent 40%);
+    animation: headerPulse 6s ease-in-out infinite alternate;
+}
+@keyframes headerPulse {
+    0%   { opacity: 0.7; }
+    100% { opacity: 1; }
 }
 .dashboard-header h1 {
-    color: white !important; font-size: 1.8em !important; font-weight: 800 !important;
-    letter-spacing: -0.02em; position: relative; z-index: 1; margin: 0 !important;
+    color: #0F172A !important; font-size: 1.85em !important; font-weight: 800 !important;
+    letter-spacing: -0.025em; position: relative; z-index: 1; margin: 0 !important;
+    font-family: 'Fira Sans', sans-serif !important;
+    text-shadow: none;
 }
 .dashboard-header p {
-    color: #94A3B8 !important; font-size: 0.95em; position: relative; z-index: 1;
-    margin: 4px 0 0 0 !important;
+    color: #475569 !important; font-size: 0.92em; position: relative; z-index: 1;
+    margin: 6px 0 0 0 !important; font-family: 'Fira Sans', sans-serif !important;
+    letter-spacing: 0.01em;
 }
 
-/* ── KPI Metric Cards — Design Spells: Glassmorphism + Hover Magic ── */
+/* ── KPI Metric Cards — Glassmorphism + Micro-animation ── */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -119,157 +152,205 @@ header[data-testid="stHeader"] { background: transparent; }
 @media (max-width: 768px)  { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .kpi-card {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(226,232,240,0.8);
-    border-radius: 14px;
-    padding: 20px 18px 16px;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(226,232,240,0.7);
+    border-radius: 16px;
+    padding: 22px 20px 18px;
     text-align: left;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
 }
 .kpi-card::before {
     content: '';
     position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    border-radius: 14px 14px 0 0;
+    border-radius: 16px 16px 0 0;
 }
 .kpi-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
-    border-color: transparent;
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(59,130,246,0.06);
+    border-color: rgba(59,130,246,0.15);
 }
 /* Per-card gradient top bar */
-.kpi-card.blue::before   { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
-.kpi-card.green::before  { background: linear-gradient(90deg, #10B981, #34D399); }
-.kpi-card.amber::before  { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
-.kpi-card.red::before    { background: linear-gradient(90deg, #EF4444, #F87171); }
-.kpi-card.purple::before { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
-.kpi-card.slate::before  { background: linear-gradient(90deg, #475569, #64748B); }
+.kpi-card.blue::before   { background: linear-gradient(90deg, #1E40AF, #3B82F6, #60A5FA); }
+.kpi-card.green::before  { background: linear-gradient(90deg, #047857, #10B981, #34D399); }
+.kpi-card.amber::before  { background: linear-gradient(90deg, #B45309, #F59E0B, #FBBF24); }
+.kpi-card.red::before    { background: linear-gradient(90deg, #B91C1C, #EF4444, #F87171); }
+.kpi-card.purple::before { background: linear-gradient(90deg, #6D28D9, #8B5CF6, #A78BFA); }
+.kpi-card.slate::before  { background: linear-gradient(90deg, #334155, #475569, #64748B); }
 
-.kpi-icon {
-    width: 38px; height: 38px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1em; margin-bottom: 10px;
+.kpi-header-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
 }
-.kpi-icon.blue   { background: #EFF6FF; color: #3B82F6; }
-.kpi-icon.green  { background: #ECFDF5; color: #10B981; }
-.kpi-icon.amber  { background: #FFFBEB; color: #F59E0B; }
-.kpi-icon.red    { background: #FEF2F2; color: #EF4444; }
-.kpi-icon.purple { background: #F5F3FF; color: #8B5CF6; }
-.kpi-icon.slate  { background: #F1F5F9; color: #475569; }
+.kpi-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1em;
+    transition: transform 0.3s ease;
+}
+.kpi-card:hover .kpi-icon { transform: scale(1.1); }
+.kpi-icon.blue   { background: #EFF6FF; color: #1E40AF; }
+.kpi-icon.green  { background: #ECFDF5; color: #047857; }
+.kpi-icon.amber  { background: #FFFBEB; color: #B45309; }
+.kpi-icon.red    { background: #FEF2F2; color: #B91C1C; }
+.kpi-icon.purple { background: #F5F3FF; color: #6D28D9; }
+.kpi-icon.slate  { background: #F1F5F9; color: #334155; }
 
 .kpi-label {
-    font-size: 0.72em; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.06em; color: #64748B; margin-bottom: 4px;
+    font-size: 0.75em; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #64748B; margin-bottom: 0px;
+    font-family: 'Fira Sans', sans-serif;
 }
 .kpi-value {
-    font-size: 1.65em; font-weight: 800; color: #0F172A;
-    letter-spacing: -0.02em; line-height: 1.1;
+    font-size: 1.7em; font-weight: 700; color: #0F172A;
+    letter-spacing: -0.03em; line-height: 1.1;
+    font-family: 'Fira Code', monospace;
 }
 .kpi-delta {
-    font-size: 0.75em; font-weight: 600; margin-top: 6px;
+    font-size: 0.73em; font-weight: 600; margin-top: 8px;
     display: inline-flex; align-items: center; gap: 3px;
-    padding: 2px 8px; border-radius: 20px;
+    padding: 3px 10px; border-radius: 20px;
+    font-family: 'Fira Sans', sans-serif;
 }
-.kpi-delta.up   { background: #ECFDF5; color: #059669; }
-.kpi-delta.down { background: #FEF2F2; color: #DC2626; }
+.kpi-delta.up   { background: #ECFDF5; color: #047857; }
+.kpi-delta.down { background: #FEF2F2; color: #B91C1C; }
 
 /* ── Section Headers ── */
 .section-header {
-    display: flex; align-items: center; gap: 10px;
-    margin: 28px 0 14px 0; padding-bottom: 10px;
-    border-bottom: 2px solid #E2E8F0;
+    display: flex; align-items: center; gap: 12px;
+    margin: 32px 0 16px 0; padding-bottom: 12px;
+    border-bottom: 2px solid rgba(226,232,240,0.6);
 }
 .section-header .badge {
-    background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-    color: white; font-size: 0.7em; font-weight: 700;
-    padding: 4px 10px; border-radius: 20px;
-    text-transform: uppercase; letter-spacing: 0.06em;
+    background: linear-gradient(135deg, #1E40AF, #7C3AED);
+    color: white; font-size: 0.68em; font-weight: 700;
+    padding: 5px 12px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    font-family: 'Fira Sans', sans-serif;
+    box-shadow: 0 2px 8px rgba(30,64,175,0.2);
 }
 .section-header h3 {
-    font-size: 1.05em !important; font-weight: 700 !important;
+    font-size: 1.08em !important; font-weight: 700 !important;
     color: #0F172A !important; margin: 0 !important;
+    font-family: 'Fira Sans', sans-serif !important;
 }
 
-/* ── Insight Cards — Design Spells: Subtle border animation ── */
+/* ── Insight Cards — Glassmorphism + border glow ── */
 .insight-card {
-    background: linear-gradient(135deg, #F0F9FF, #EFF6FF);
-    border: 1px solid #BFDBFE;
-    border-left: 4px solid #3B82F6;
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin: 10px 0 16px 0;
-    font-size: 0.88em;
+    background: linear-gradient(135deg, rgba(240,249,255,0.95), rgba(239,246,255,0.9));
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(191,219,254,0.6);
+    border-left: 4px solid #1E40AF;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 12px 0 18px 0;
+    font-size: 0.87em;
     color: #1E293B;
-    line-height: 1.55;
-    transition: all 0.2s ease;
+    line-height: 1.6;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-family: 'Fira Sans', sans-serif;
 }
 .insight-card:hover {
-    border-left-color: #8B5CF6;
-    background: linear-gradient(135deg, #F5F3FF, #EFF6FF);
-    box-shadow: 0 2px 12px rgba(59,130,246,0.08);
+    border-left-color: #7C3AED;
+    background: linear-gradient(135deg, rgba(245,243,255,0.95), rgba(239,246,255,0.9));
+    box-shadow: 0 4px 16px rgba(59,130,246,0.1);
+    transform: translateX(2px);
 }
-.insight-card strong { color: #1E40AF; }
+.insight-card strong { color: #1E40AF; font-weight: 700; }
 .insight-card.warning {
-    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
-    border-color: #FDE68A;
-    border-left-color: #F59E0B;
+    background: linear-gradient(135deg, rgba(255,251,235,0.95), rgba(254,243,199,0.9));
+    border-color: rgba(253,230,138,0.6);
+    border-left-color: #D97706;
 }
+.insight-card.warning strong { color: #92400E; }
 .insight-card.danger {
-    background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
-    border-color: #FECACA;
-    border-left-color: #EF4444;
+    background: linear-gradient(135deg, rgba(254,242,242,0.95), rgba(254,226,226,0.9));
+    border-color: rgba(254,202,202,0.6);
+    border-left-color: #DC2626;
 }
+.insight-card.danger strong { color: #991B1B; }
 
 /* ── Chart Container ── */
 .chart-container {
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(8px);
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
-    transition: box-shadow 0.2s ease;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(12px) saturate(150%);
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(226,232,240,0.5);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
 }
 .chart-container:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    border-color: rgba(59,130,246,0.12);
 }
 
 /* ── Footer ── */
 .dashboard-footer {
-    text-align: center; padding: 28px 20px 20px;
-    margin-top: 40px;
-    border-top: 1px solid #E2E8F0;
-    color: #94A3B8; font-size: 0.8em;
+    text-align: center; padding: 32px 20px 24px;
+    margin-top: 48px;
+    border-top: 1px solid rgba(226,232,240,0.5);
+    color: #94A3B8; font-size: 0.78em;
+    font-family: 'Fira Sans', sans-serif;
+    letter-spacing: 0.01em;
 }
+.dashboard-footer strong { color: #64748B; font-weight: 700; }
 .dashboard-footer a { color: #3B82F6; text-decoration: none; }
 
-/* ── Tab Styling ── */
+/* ── Tab Styling — Pill-style with smooth transitions ── */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 4px;
-    background: rgba(255,255,255,0.8);
-    border-radius: 12px;
-    padding: 4px;
-    border: 1px solid #E2E8F0;
+    gap: 6px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 5px 6px;
+    border: 1px solid rgba(226,232,240,0.6);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
 .stTabs [data-baseweb="tab"] {
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 600;
-    font-size: 0.85em;
-    padding: 8px 16px;
+    font-size: 0.84em;
+    padding: 10px 18px;
+    font-family: 'Fira Sans', sans-serif !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.stTabs [data-baseweb="tab"]:hover {
+    background: rgba(59,130,246,0.06);
 }
 .stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #3B82F6, #2563EB) !important;
+    background: linear-gradient(135deg, #1E40AF, #3B82F6) !important;
     color: white !important;
+    box-shadow: 0 4px 12px rgba(30,64,175,0.25);
 }
 
 /* ── Streamlit metric overrides ── */
 [data-testid="stMetricValue"] {
     font-size: 1.5rem !important;
-    font-weight: 800 !important;
+    font-weight: 700 !important;
+    font-family: 'Fira Code', monospace !important;
 }
+
+/* ── Plotly chart containers ── */
+[data-testid="stPlotlyChart"] {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: rgba(148,163,184,0.3);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(148,163,184,0.5); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -295,9 +376,9 @@ df = load_data()
 # ══════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("""
-    <div style="text-align:center; padding: 16px 0 8px;">
+    <div style="text-align:center; padding: 0 0 8px;">
         <div style="font-size: 2em; margin-bottom: 4px;">📊</div>
-        <div style="font-size: 1.1em; font-weight: 800; color: white !important;
+        <div style="font-size: 1.1em; font-weight: 800; color: #0F172A !important;
                     letter-spacing: -0.02em;">Analytics Hub</div>
         <div style="font-size: 0.7em; color: #64748B !important;
                     text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px;">
@@ -309,7 +390,7 @@ with st.sidebar:
     st.markdown("---")
 
     # Date Range Filter
-    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#94A3B8 !important; margin-bottom:4px;">📅 Khoảng thời gian</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#475569 !important; margin-bottom:4px;">📅 Khoảng thời gian</p>', unsafe_allow_html=True)
     min_date = df['order_date'].min().date()
     max_date = df['order_date'].max().date()
     date_range = st.date_input(
@@ -323,17 +404,17 @@ with st.sidebar:
     st.markdown("---")
 
     # Region Filter
-    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#94A3B8 !important; margin-bottom:4px;">🌍 Khu vực</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#475569 !important; margin-bottom:4px;">🌍 Khu vực</p>', unsafe_allow_html=True)
     region_list = sorted(df['region'].unique().tolist())
     selected_regions = st.multiselect("Chọn khu vực", region_list, default=region_list, label_visibility="collapsed")
 
     # Category Filter
-    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#94A3B8 !important; margin-bottom:4px;">🏷️ Danh mục sản phẩm</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#475569 !important; margin-bottom:4px;">🏷️ Danh mục sản phẩm</p>', unsafe_allow_html=True)
     category_list = sorted(df['category'].unique().tolist())
     selected_categories = st.multiselect("Chọn danh mục", category_list, default=category_list, label_visibility="collapsed")
 
     # Gender filter
-    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#94A3B8 !important; margin-bottom:4px;">👤 Giới tính</p>', unsafe_allow_html=True)
+    st.markdown('<p style="font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#475569 !important; margin-bottom:4px;">👤 Giới tính</p>', unsafe_allow_html=True)
     gender_list = sorted(df['customer_gender'].unique().tolist())
     selected_genders = st.multiselect("Chọn giới tính", gender_list, default=gender_list, label_visibility="collapsed")
 
@@ -341,20 +422,20 @@ with st.sidebar:
 
     # Dataset Info
     st.markdown(f"""
-    <div style="background: rgba(255,255,255,0.05); border-radius: 10px; padding: 14px; margin-top:8px;">
+    <div style="background: rgba(30,64,175,0.06); border-radius: 10px; padding: 14px; margin-top:8px; border: 1px solid rgba(59,130,246,0.1);">
         <div style="font-size: 0.7em; font-weight: 700; text-transform: uppercase;
-                    letter-spacing: 0.08em; color: #64748B !important; margin-bottom: 8px;">
+                    letter-spacing: 0.08em; color: #475569 !important; margin-bottom: 8px;">
             Thống kê Dataset
         </div>
         <div style="font-size: 0.82em; line-height: 2;">
-            <span style="color: #94A3B8 !important;">Tổng bản ghi:</span>
-            <span style="color: white !important; font-weight: 700;">{len(df):,}</span><br>
-            <span style="color: #94A3B8 !important;">Khoảng thời gian:</span>
-            <span style="color: white !important; font-weight: 700;">2023–2025</span><br>
-            <span style="color: #94A3B8 !important;">Khu vực:</span>
-            <span style="color: white !important; font-weight: 700;">{len(region_list)}</span><br>
-            <span style="color: #94A3B8 !important;">Danh mục:</span>
-            <span style="color: white !important; font-weight: 700;">{len(category_list)}</span>
+            <span style="color: #64748B !important;">Tổng bản ghi:</span>
+            <span style="color: #0F172A !important; font-weight: 700;">{len(df):,}</span><br>
+            <span style="color: #64748B !important;">Khoảng thời gian:</span>
+            <span style="color: #0F172A !important; font-weight: 700;">2023–2025</span><br>
+            <span style="color: #64748B !important;">Khu vực:</span>
+            <span style="color: #0F172A !important; font-weight: 700;">{len(region_list)}</span><br>
+            <span style="color: #64748B !important;">Danh mục:</span>
+            <span style="color: #0F172A !important; font-weight: 700;">{len(category_list)}</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -389,7 +470,7 @@ st.markdown(f"""
 <div class="dashboard-header">
     <h1>E-Commerce Sales Analytics</h1>
     <p>Dashboard phân tích hiệu suất kinh doanh — Dự án Midterm: Trực quan hóa Dữ liệu | HCMUS 2026
-    &nbsp;&nbsp;·&nbsp;&nbsp;<strong style="color:#60A5FA;">{len(plot_df):,}</strong> bản ghi đã lọc</p>
+    &nbsp;&nbsp;·&nbsp;&nbsp;<strong style="color:#1E40AF;">{len(plot_df):,}</strong> bản ghi đã lọc</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -444,38 +525,50 @@ with tab_overview:
         st.markdown(f"""
         <div class="kpi-grid">
             <div class="kpi-card blue">
-                <div class="kpi-icon blue">💰</div>
-                <div class="kpi-label">Tổng Doanh Thu</div>
+                <div class="kpi-header-row">
+                    <div class="kpi-icon blue">💰</div>
+                    <div class="kpi-label">Tổng Doanh Thu</div>
+                </div>
                 <div class="kpi-value">${total_rev/1e6:.2f}M</div>
                 <div class="kpi-delta up">▲ Đã lọc</div>
             </div>
             <div class="kpi-card green">
-                <div class="kpi-icon green">📦</div>
-                <div class="kpi-label">Đơn Hàng</div>
+                <div class="kpi-header-row">
+                    <div class="kpi-icon green">📦</div>
+                    <div class="kpi-label">Đơn Hàng</div>
+                </div>
                 <div class="kpi-value">{total_orders:,}</div>
                 <div class="kpi-delta up">▲ {completed_orders:,} thành công</div>
             </div>
             <div class="kpi-card amber">
-                <div class="kpi-icon amber">💳</div>
-                <div class="kpi-label">Giá Trị TB (AOV)</div>
+                <div class="kpi-header-row">
+                    <div class="kpi-icon amber">💳</div>
+                    <div class="kpi-label">Giá Trị TB (AOV)</div>
+                </div>
                 <div class="kpi-value">${avg_order_val:,.0f}</div>
                 <div class="kpi-delta up">▲ Per order</div>
             </div>
             <div class="kpi-card red">
-                <div class="kpi-icon red">⚠️</div>
-                <div class="kpi-label">Tỷ Lệ Hoàn/Hủy</div>
+                <div class="kpi-header-row">
+                    <div class="kpi-icon red">⚠️</div>
+                    <div class="kpi-label">Tỷ Lệ Hoàn/Hủy</div>
+                </div>
                 <div class="kpi-value">{return_rate:.1f}%</div>
                 <div class="kpi-delta down">▼ {total_returned:,} đơn</div>
             </div>
             <div class="kpi-card purple">
-                <div class="kpi-icon purple">🚚</div>
-                <div class="kpi-label">Cước Phí TB</div>
+                <div class="kpi-header-row">
+                    <div class="kpi-icon purple">🚚</div>
+                    <div class="kpi-label">Cước Phí TB</div>
+                </div>
                 <div class="kpi-value">${avg_ship:.2f}</div>
                 <div class="kpi-delta up">▲ Trung bình</div>
             </div>
             <div class="kpi-card slate">
-                <div class="kpi-icon slate">📊</div>
-                <div class="kpi-label">Tổng Lợi Nhuận</div>
+                <div class="kpi-header-row">
+                    <div class="kpi-icon slate">📊</div>
+                    <div class="kpi-label">Tổng Lợi Nhuận</div>
+                </div>
                 <div class="kpi-value">${total_profit/1e6:.2f}M</div>
                 <div class="kpi-delta up">▲ Margin</div>
             </div>
@@ -644,6 +737,10 @@ with tab1:
             style_fig(fig_t1g, height=400)
             st.plotly_chart(fig_t1g, use_container_width=True)
 
+        top_month = rev_time.loc[rev_time['total_amount'].idxmax(), 'month_ts'].strftime('%m/%Y')
+        top_rev = rev_time['total_amount'].max() / 1e3
+        st.markdown(f'<div class="insight-card"><strong>Insight Tổng Quan:</strong> Dữ liệu cho thấy tháng <strong>{top_month}</strong> là đỉnh điểm tiêu dùng với doanh thu đạt <strong>${top_rev:,.0f}K</strong>. Mức độ biến động cao ở các chu kỳ này cho thấy tính mùa vụ rõ rệt.</div>', unsafe_allow_html=True)
+
         # ── 2. Quarterly + Seasonal side by side ──
         q1, q2 = st.columns(2)
 
@@ -665,6 +762,9 @@ with tab1:
             fig_q.update_layout(title=dict(text='Doanh Thu theo Quý (K$)', font=dict(size=14)))
             style_fig(fig_q, height=350, show_ygrid=False)
             st.plotly_chart(fig_q, use_container_width=True)
+            
+            top_q = rev_q.loc[rev_q['total_amount'].idxmax(), 'Quarter']
+            st.markdown(f'<div class="insight-card"><strong>Insight Quý:</strong> Quý <strong>{top_q}</strong> dẫn dắt tăng trưởng toàn hệ thống. Đây là khoảng thời gian cần duy trì ngân sách Marketing tối đa.</div>', unsafe_allow_html=True)
 
         with q2:
             st.markdown("#### 🌡️ Mùa vụ — Doanh thu TB theo Tháng")
@@ -685,6 +785,9 @@ with tab1:
             fig_s.update_layout(title=dict(text='Doanh thu TB theo Mùa vụ', font=dict(size=14)))
             style_fig(fig_s, height=350, show_ygrid=False)
             st.plotly_chart(fig_s, use_container_width=True)
+            
+            top_season = seasonal.loc[seasonal['total_amount'].idxmax(), 'label']
+            st.markdown(f'<div class="insight-card"><strong>Insight Mùa Vụ:</strong> Trung bình, <strong>tháng {top_season.replace("T","")}</strong> có hiệu suất mua sắm cao nhất.</div>', unsafe_allow_html=True)
 
         # ── 3. Day of Week ──
         st.markdown("#### 📆 Thói quen Mua sắm theo Thứ trong tuần")
@@ -705,7 +808,8 @@ with tab1:
         style_fig(fig_dow, height=360, show_ygrid=True)
         st.plotly_chart(fig_dow, use_container_width=True)
 
-        st.markdown('<div class="insight-card"><strong>Insight:</strong> Thứ 3–5 tập trung lượng đơn cao nhất, phù hợp với thời gian làm việc hành chính. Cuối tuần giảm rõ rệt — nên đẩy Flash Sale vào Thứ 7, CN.</div>', unsafe_allow_html=True)
+        top_dow = dow_c.loc[dow_c['Orders'].idxmax(), 'label']
+        st.markdown(f'<div class="insight-card"><strong>Insight Hành Vi:</strong> Bất ngờ là <strong>{top_dow}</strong> lại là ngày có lượng đơn đổ về cao nhất. Ngày cuối tuần thấp hơn → nên đẩy chiến dịch kích cầu "Flash Sale".</div>', unsafe_allow_html=True)
     else:
         st.warning("Không có dữ liệu — vui lòng điều chỉnh bộ lọc.")
 
@@ -736,6 +840,11 @@ with tab2:
             )
             style_fig(fig_c2a, height=350, show_ygrid=False, show_xgrid=False)
             st.plotly_chart(fig_c2a, use_container_width=True)
+            
+            top_cat = rev_cat.iloc[-1]['category']
+            top_cat_rev = rev_cat.iloc[-1]['rev_m']
+            st.markdown(f'<div class="insight-card"><strong>Insight Thị Phần:</strong> <strong>{top_cat}</strong> đang định hình là sản phẩm lõi với doanh thu <strong>${top_cat_rev:.2f}M</strong>, bỏ xa các mặt hàng khác.</div>', unsafe_allow_html=True)
+
 
         with c2b:
             st.markdown("#### ⚠️ Tỷ lệ Hoàn trả theo Danh mục")
@@ -754,8 +863,10 @@ with tab2:
             )
             style_fig(fig_c2b, height=350, show_ygrid=False, show_xgrid=False)
             st.plotly_chart(fig_c2b, use_container_width=True)
-
-        st.markdown('<div class="insight-card warning"><strong>Cảnh báo:</strong> Fashion (8.3%) và Electronics (7.3%) có tỷ lệ hoàn hàng cao nhất. Cần cải thiện mô tả sản phẩm, bảng size, và chính sách đổi trả.</div>', unsafe_allow_html=True)
+            
+            worst_cat = ret_cat.iloc[-1]['category']
+            worst_rate = ret_cat.iloc[-1]['rate']
+            st.markdown(f'<div class="insight-card warning"><strong>Cảnh báo Hoàn Hàng:</strong> Tỷ lệ trả hàng của nhóm <strong>{worst_cat}</strong> đang ở mức rủi ro <strong>{worst_rate:.1f}%</strong> — cần rà soát lại thông số/size chart sản phẩm này.</div>', unsafe_allow_html=True)
 
         # ── Discount vs Profit ──
         st.markdown("#### 📉 Tương quan: Mức Giảm Giá vs Biên Lợi Nhuận")
@@ -793,7 +904,9 @@ with tab2:
         style_fig(fig_disc, height=420, show_xgrid=True)
         st.plotly_chart(fig_disc, use_container_width=True)
 
-        st.markdown('<div class="insight-card"><strong>Insight:</strong> Đa số đơn (19K) không dùng mã giảm giá và đem lại margin $30+. Giảm giá 30% khiến margin sụt xuống ~$19 — không đáng bù sản lượng.</div>', unsafe_allow_html=True)
+        best_disc = disc_p.loc[disc_p['avg_profit'].idxmax(), 'disc_pct']
+        max_margin = disc_p['avg_profit'].max()
+        st.markdown(f'<div class="insight-card"><strong>Insight Chiết Khấu:</strong> Bảng trendline cho thấy nghịch biến rất mạnh. Biên lợi nhuận tối ưu đạt <strong>${max_margin:.1f}</strong> tại mức giảm <strong>{best_disc:.0f}%</strong>. Khuyến nghị cân nhắc cẩn thận trước khi tạo mã giảm giá sâu >15%.</div>', unsafe_allow_html=True)
     else:
         st.warning("Không có dữ liệu.")
 
@@ -838,6 +951,10 @@ with tab3:
             )
             style_fig(fig_t3a, height=400)
             st.plotly_chart(fig_t3a, use_container_width=True)
+            
+            top_seg = t3.loc[t3['value'].idxmax()]
+            st.markdown(f'<div class="insight-card"><strong>Insight Đặc Điểm Khách Hàng:</strong> Tệp <strong>{top_seg["customer_gender"]}</strong> ở phân khúc tuổi <strong>{top_seg["age_group"]}</strong> đóng góp dòng tiền lớn nhất. Đây nên là mục tiêu của chiến dịch nhắm chọn (Targeting).</div>', unsafe_allow_html=True)
+
 
         # ── 2. Payment Heatmap + Top VIP ──
         c3a, c3b = st.columns(2)
@@ -856,7 +973,8 @@ with tab3:
                 style_fig(fig_heat, height=360, show_xgrid=False, show_ygrid=False)
                 st.plotly_chart(fig_heat, use_container_width=True)
 
-                st.markdown('<div class="insight-card"><strong>Insight:</strong> Credit Card thống trị mọi nhóm tuổi (35-36%). COD vẫn ổn định ~12% — tâm lý "thấy hàng mới trả" còn phổ biến.</div>', unsafe_allow_html=True)
+                fav_pm = df_valid['payment_method'].mode().iloc[0]
+                st.markdown(f'<div class="insight-card"><strong>Insight Luồng Tiền:</strong> Cổng thanh toán <strong>{fav_pm}</strong> áp đảo sự lựa chọn của người mua. Việc duy trì phí charge của thẻ tín dụng/ví điện tử này là yếu tố cốt lõi.</div>', unsafe_allow_html=True)
 
         with c3b:
             st.markdown("#### 🏆 Top 10 Khách hàng VIP")
@@ -877,7 +995,9 @@ with tab3:
                 style_fig(fig_top, height=360, show_ygrid=False, show_xgrid=True)
                 st.plotly_chart(fig_top, use_container_width=True)
 
-                st.markdown('<div class="insight-card"><strong>VIP #1:</strong> Khách hàng C16655 chi tiêu $13,885 — gấp đôi nhóm bám đuổi. Cần chính sách Loyalty ưu tiên.</div>', unsafe_allow_html=True)
+                vip_code = top_c.iloc[-1]['customer_id']
+                vip_amount = top_c.iloc[-1]['total_amount']
+                st.markdown(f'<div class="insight-card"><strong>Insight Tập Khách Hàng VIP:</strong> Top 1 thuộc về <strong>{vip_code}</strong> với quy mô chi tiêu <strong>${vip_amount:,.0f}</strong>. Chương trình "Diamond Elite" nên được thiết lập để giữ chân nhóm này.</div>', unsafe_allow_html=True)
     else:
         st.warning("Không có dữ liệu.")
 
@@ -915,6 +1035,11 @@ with tab4:
             fig_reg.update_layout(title=dict(text='Doanh Thu & Số Đơn theo Khu vực', font=dict(size=14)))
             style_fig(fig_reg, height=360, show_ygrid=False, show_xgrid=False)
             st.plotly_chart(fig_reg, use_container_width=True)
+            
+            if not rev_reg.empty:
+                top_geo = rev_reg.iloc[-1]['region']
+                top_geo_v = rev_reg.iloc[-1]['rev_m']
+                st.markdown(f'<div class="insight-card"><strong>Insight Mạng Lưới:</strong> Trọng điểm doanh thu đang phụ thuộc vào phân vùng <strong>{top_geo}</strong> (${top_geo_v:.2f}M). Các vùng khác cần chạy promotion khu vực.</div>', unsafe_allow_html=True)
 
         with c4b:
             st.markdown("#### ⏱️ Tốc độ & Chi phí Giao hàng")
@@ -943,7 +1068,10 @@ with tab4:
             style_fig(fig_ship, height=360, show_ygrid=False)
             st.plotly_chart(fig_ship, use_container_width=True)
 
-        st.markdown('<div class="insight-card warning"><strong>Cảnh báo Logistics:</strong> Khu vực Đông giao ~6 ngày + cước $6.20 — cả hai đều cao nhất hệ thống. Cần mở Fulfillment Center tại khu vực này.</div>', unsafe_allow_html=True)
+            slow_geo = ship_reg.iloc[-1]['region']
+            slow_days = ship_reg.iloc[-1]['avg_del']
+            slow_fee = ship_reg.iloc[-1]['avg_ship']
+            st.markdown(f'<div class="insight-card warning"><strong>Cảnh báo Nút Thắt Vận Chuyển:</strong> Khu vực <strong>{slow_geo}</strong> đang chịu sự chậm trễ ({slow_days:.1f} ngày) kèm cước phí đắt đỏ (${slow_fee:.1f}). Đề xuất triển khai Dark Store.</div>', unsafe_allow_html=True)
 
         # ── Correlation: Shipping Cost vs Return Rate ──
         st.markdown("#### 🔗 Tương quan: Cước phí ↔ Tỷ lệ Hoàn hàng (Câu hỏi 12)")
@@ -980,12 +1108,12 @@ with tab4:
         style_fig(fig_corr, height=420, show_xgrid=True)
         st.plotly_chart(fig_corr, use_container_width=True)
 
-        st.markdown("""
+        max_bin = bin_cor.loc[bin_cor['avg_shipping'].idxmax()]
+        st.markdown(f"""
         <div class="insight-card danger">
-            <strong>Kết luận Câu 12:</strong> Mối tương quan Pearson +0.97 chứng minh:
-            cước ship $1-2 → hoàn hàng chỉ 2.5%, nhưng cước > $10 → hoàn hàng vọt lên 7.1%.
-            <strong>Khuyến nghị:</strong> Giữ cước dưới $6 để nén tỷ lệ hoàn dưới 5%.
-            Ưu tiên trợ giá freeship cho khu vực Đông.
+            <strong>Insight Chuỗi Cung Ứng:</strong> Tương quan rất mạnh (Pearson r = +0.97).
+            Khi cước chạm ngưỡng {max_bin['ship_bin']}, tỷ lệ hoàn vọt lên <strong>{max_bin['return_pct']:.1f}%</strong> do tâm lý "xót tiền cước" của khách.
+            <strong>Hành động:</strong> Trợ giá Free-shipping cho đơn >$200 để làm xẹp nhanh tỷ lệ bùng hàng này.
         </div>
         """, unsafe_allow_html=True)
     else:
