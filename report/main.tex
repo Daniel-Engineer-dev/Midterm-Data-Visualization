@@ -21,8 +21,8 @@
 \usepackage{float}                 % Cần cho [H] placement
 \usepackage{caption}
 \usepackage{subcaption}
-\usepackage[backend=biber, style=numeric]{biblatex}
-
+\usepackage{csquotes}
+\usepackage[backend=bibtex, style=numeric]{biblatex}
 \addbibresource{references.bib}
 
 % ===== LỀ TRANG =====
@@ -58,6 +58,7 @@
     {\normalsize\bfseries\color{accentblue}}{\thesubsubsection.}{0.5em}{}
 
 % ===== HEADER & FOOTER =====
+\setlength{\headheight}{14.5pt}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small\textcolor{gray}{Báo cáo Giữa Kì --- Trực quan hóa Dữ liệu}}
@@ -117,8 +118,12 @@
 \input{sections/05_discussion}
 
 
-% ===== TÀI LIỆU THAM KHẢO =====
+% =====================================================================
+% SECTION 6: TÀI LIỆU THAM KHẢO
+% =====================================================================
 \newpage
-\printbibliography[title={Tài Liệu Tham Khảo}]
+\section{Tài liệu tham khảo}
+\nocite{*}
+\printbibliography[heading=none]
 
 \end{document}

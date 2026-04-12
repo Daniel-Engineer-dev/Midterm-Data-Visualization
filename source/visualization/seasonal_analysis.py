@@ -29,8 +29,11 @@ month_mapping_vi = {
 }
 
 # Tính doanh thu trung bình theo tháng (Mùa vụ)
-# Group by Month only (ignoring year) to see seasonal behavior
-seasonal_data = df.groupby("order_month")["total_amount"].mean().reset_index()
+# Logic: Phải tính Tổng doanh thu theo từng Tháng-Năm trước, sau đó mới tính Trung bình của các tổng đó theo Tháng
+# Điều này giúp khớp với Dashboard và phản ánh đúng quy mô doanh thu thay vì trung bình trên mỗi đơn hàng.
+df['year'] = df['order_date'].dt.year
+monthly_totals = df.groupby(['year', 'order_month'])['total_amount'].sum().reset_index()
+seasonal_data = monthly_totals.groupby('order_month')['total_amount'].mean().reset_index()
 seasonal_data["Month_VI"] = seasonal_data["order_month"].map(month_mapping_vi)
 
 # Sắp xếp theo thứ tự tháng 1-12
@@ -40,16 +43,15 @@ seasonal_data = seasonal_data.sort_values("order_month")
 plt.figure(figsize=(12, 6))
 sns.set_theme(style="whitegrid")
 
-# Highlight các điểm cao nhất và thấp nhất
-max_val = seasonal_data["total_amount"].max()
-min_val = seasonal_data["total_amount"].min()
-
+# Highlight các điểm cao nhất và thấp nhất theo yêu cầu
+# Tháng 4, 10, 12 là cao điểm (Đỏ)
+# Tháng 9 là thấp điểm (Xám đậm)
 colors = []
-for val in seasonal_data["total_amount"]:
-    if val == max_val:
+for m in seasonal_data["order_month"]:
+    if m in [4, 10, 12]:
         colors.append("#e74c3c")  # Đỏ cho cao điểm
-    elif val == min_val:
-        colors.append("#34495e")  # Xám đậm cho thấp điểm
+    elif m == 9:
+        colors.append("#34495e")  # Xám đậm cho thấp điểm (T9)
     else:
         colors.append("#3498db")  # Xanh cho bình thường
 

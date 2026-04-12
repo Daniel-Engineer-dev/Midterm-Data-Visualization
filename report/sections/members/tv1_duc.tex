@@ -5,13 +5,11 @@
 \noindent\textbf{3. Kết quả phân tích \& Trực quan hóa:}
 
 % (a) Biến động theo tháng/quý
-\begin{enumerate}[label=(\alph*)]
-    \item \textbf{Biến động theo tháng/quý:}
-\end{enumerate}
-
+\vspace{0.3cm}
+\textbf{a. Biến động theo tháng/quý:}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/revenue_trend.png}
+    \includegraphics[width=1\textwidth]{images/time_revenue/revenue_trend.png}
     \caption{Biểu đồ xu hướng doanh thu hàng tháng từ 2023 - 2025}
     \label{fig:revenue_trend}
 \end{figure}
@@ -26,7 +24,7 @@
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/quarterly_revenue.png}
+    \includegraphics[width=1\textwidth]{images/time_revenue/quarterly_revenue.png}
     \caption{Biểu đồ tổng doanh thu và tốc độ tăng trưởng theo quý}
     \label{fig:quarterly_revenue}
 \end{figure}
@@ -40,30 +38,30 @@
 \end{itemize}
 
 % (b) Tháng cao điểm & Mùa vụ
-\begin{enumerate}[label=(\alph*), resume]
-    \item \textbf{Tháng cao điểm \& Mùa vụ:}
-\end{enumerate}
+\textbf{b. Tháng cao điểm \& Mùa vụ:}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/seasonal_revenue.png}
+    \includegraphics[width=1\textwidth]{images/time_revenue/seasonal_revenue.png}
     \caption{Doanh thu trung bình theo tháng}
     \label{fig:seasonal_revenue}
 \end{figure}
 
 \begin{itemize}
-    \item \textit{Cao điểm:} Dữ liệu trung bình nhiều năm xác nhận \textbf{Tháng 12 và Tháng 10} là hai tháng mang lại doanh thu cao nhất (trên \$160,000/tháng). Tháng 4 cũng là một điểm sáng mùa vụ quan trọng.
-    \item \textit{Thấp điểm:} \textbf{Tháng 1} là tháng có doanh thu trung bình thấp nhất, khớp với biểu đồ mùa vụ (màu xám đậm), phản ánh sự bão hòa chi tiêu sau Tết/Lễ hội.
+    \item \textbf{Đặc trưng Mùa vụ (Seasonality):} Phân tích dữ liệu trung bình qua các năm (2023--2025) cho thấy một quy luật mùa vụ rõ nét với hai chu kỳ cao điểm chính:
+    \begin{itemize}[label=--]
+        \item \textit{Cao điểm cuối năm (Peak months):} \textbf{Tháng 12 và Tháng 10} mang lại doanh thu trung bình cao nhất (vượt ngưỡng \$260,000/tháng, được highlight màu đỏ trên biểu đồ \ref{fig:seasonal_revenue}).
+        \item \textit{Điểm sáng giữa năm:} \textbf{Tháng 4} cũng ghi nhận sự gia tăng doanh số đáng kể, đóng vai trò là "cú hích" doanh thu quan trọng trong nửa đầu năm.
+    \end{itemize}
+    \item \textbf{Giai đoạn thấp điểm (Trough):} \textbf{Tháng 9} ghi nhận mức doanh thu trung bình thấp nhất trên biểu đồ (màu xám đậm). Tuy nhiên, con số này bị ảnh hưởng do dữ liệu của các năm 2023 và 2025 tại thời điểm tháng 9 không trọn vẹn (chỉ thu thập được một phần số ngày trong tháng). Bên cạnh đó, các tháng đầu năm như \textbf{Tháng 1} cũng cho thấy sự sụt giảm đáng kể so với mức bình quân mặc dù đây là một tháng có trọn vẹn 31 ngày dữ liệu.
 \end{itemize}
 
 % (c) Xu hướng theo tuần
-\begin{enumerate}[label=(\alph*), resume]
-    \item \textbf{Xu hướng theo tuần:}
-\end{enumerate}
+\textbf{c. Xu hướng theo tuần:}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.88\textwidth]{images/dow_trend.png}
+    \includegraphics[width=0.88\textwidth]{images/time_revenue/dow_trend.png}
     \caption{Lượng đơn hàng phân bổ theo các thứ trong tuần}
     \label{fig:dow_trend}
 \end{figure}
