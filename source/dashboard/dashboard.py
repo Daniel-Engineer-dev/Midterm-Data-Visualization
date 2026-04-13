@@ -168,10 +168,11 @@ header[data-testid="stHeader"] { background: transparent; }
     border-radius: 16px 16px 0 0;
 }
 .kpi-card:hover {
-    transform: translateY(-5px) scale(1.01);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(59,130,246,0.06);
-    border-color: rgba(59,130,246,0.15);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 22px 42px rgba(0,0,0,0.08), 0 8px 16px rgba(59,130,246,0.12);
+    border-color: rgba(59,130,246,0.25);
 }
+.kpi-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 /* Per-card gradient top bar */
 .kpi-card.blue::before   { background: linear-gradient(90deg, #1E40AF, #3B82F6, #60A5FA); }
 .kpi-card.green::before  { background: linear-gradient(90deg, #047857, #10B981, #34D399); }
@@ -631,10 +632,18 @@ with col_main:
             </div>
             """, unsafe_allow_html=True)
 
+            # ─── KPI ALERTS (Pattern from kpi-dashboard-design) ───
+            overall_return_rate = plot_df['is_returned'].mean() * 100
+            if overall_return_rate > 5:
+                st.error(f"🔴 **Cảnh báo (Chỉ số KPI):** Tỷ lệ hoàn trả toàn hệ thống đang ở mức {overall_return_rate:.1f}% (Vượt ngưỡng an toàn 5%).")
+            
+            if avg_ship > 6:
+                st.warning(f"🟡 **Lưu ý (Logistics):** Chi phí vận chuyển trung bình (${avg_ship:.2f}) khá cao. Cần xem lại các tuyến giao hàng xa.")
+
             # ─── ROW 1: Revenue Trend + Category Breakdown ───
             st.markdown('<div class="section-header"><span class="badge">Nhóm 1 & 2</span><h3>Xu hướng Doanh thu · Hiệu suất Danh mục</h3></div>', unsafe_allow_html=True)
 
-            ov_c1, ov_c2 = st.columns(2)
+            ov_c1, ov_c2 = st.container(), st.container()
 
             with ov_c1:
                 plot_df['order_date'] = pd.to_datetime(plot_df['order_date'])
@@ -652,7 +661,14 @@ with col_main:
                     hovertemplate='<b>%{x|%b %Y}</b><br>$%{y:,.0f}<extra></extra>'
                 ))
                 fig_ov1.update_layout(title=dict(text='Xu hướng Doanh thu Hàng tháng', font=dict(size=14, color='#1E293B')))
-                style_fig(fig_ov1, height=340)
+                fig_ov1.update_xaxes(rangeslider_visible=True, rangeselector=dict(
+                    buttons=list([
+                        dict(count=3, label="3m", step="month", stepmode="backward"),
+                        dict(count=6, label="6m", step="month", stepmode="backward"),
+                        dict(step="all")
+                    ])
+                ))
+                style_fig(fig_ov1, height=380)
                 st.plotly_chart(fig_ov1, use_container_width=True)
 
                 st.markdown('<div class="insight-card"><strong>Nhóm 1:</strong> Doanh thu tăng mạnh Quý 4 (tháng 10, 12) — phù hợp mùa lễ hội. Giữa tuần (Thứ 3–5) là cao điểm giao dịch.</div>', unsafe_allow_html=True)
@@ -692,7 +708,7 @@ with col_main:
             # ─── ROW 2: Customer + Logistics ───
             st.markdown('<div class="section-header"><span class="badge">Nhóm 3 & 4</span><h3>Phân tầng Khách hàng · Hiệu suất Logistics</h3></div>', unsafe_allow_html=True)
 
-            ov_c3, ov_c4 = st.columns(2)
+            ov_c3, ov_c4 = st.container(), st.container()
 
             with ov_c3:
                 df_valid_ov = plot_df[plot_df['is_returned']==0].copy()
@@ -776,7 +792,17 @@ with col_main:
                         hovertemplate='<b>MA-3:</b> $%{y:,.0f}<extra></extra>'
                     ))
                 fig_t1.update_layout(title=dict(text='Xu hướng Doanh thu Hàng tháng (2023–2025)', font=dict(size=15)))
-                style_fig(fig_t1, height=400)
+                
+                # Thêm Range Slider cho Tab Xu Hướng Thời Gian
+                fig_t1.update_xaxes(rangeslider_visible=True, rangeselector=dict(
+                    buttons=list([
+                        dict(count=3, label="3m", step="month", stepmode="backward"),
+                        dict(count=6, label="6m", step="month", stepmode="backward"),
+                        dict(step="all")
+                    ])
+                ))
+                
+                style_fig(fig_t1, height=450)
                 st.plotly_chart(fig_t1, use_container_width=True)
             else:
                 rev_time['growth'] = rev_time['total_amount'].pct_change() * 100
@@ -798,7 +824,7 @@ with col_main:
             st.markdown(f'<div class="insight-card"><strong>Insight Tổng Quan:</strong> Dữ liệu cho thấy tháng <strong>{top_month}</strong> là đỉnh điểm tiêu dùng với doanh thu đạt <strong>${top_rev:,.0f}K</strong>. Mức độ biến động cao ở các chu kỳ này cho thấy tính mùa vụ rõ rệt.</div>', unsafe_allow_html=True)
 
             # ── 2. Quarterly + Seasonal side by side ──
-            q1, q2 = st.columns(2)
+            q1, q2 = st.container(), st.container()
 
             with q1:
                 st.markdown("#### Tăng trưởng theo Quý")
@@ -878,11 +904,21 @@ with col_main:
         st.markdown("Phân tích doanh thu theo ngành hàng, đánh giá rủi ro hoàn trả và tối ưu hóa chính sách giảm giá.")
 
         if not plot_df.empty:
-            c2a, c2b = st.columns(2)
+            c2a, c2b = st.container(), st.container()
 
             with c2a:
                 st.markdown("#### Doanh Thu theo Danh mục")
-                rev_cat = plot_df.groupby('category')['total_amount'].sum().reset_index().sort_values('total_amount', ascending=True)
+                # Lựa chọn sắp xếp (Sort control)
+                sort_c2a = st.selectbox("Sắp xếp:", ["Doanh thu (Cao -> Thấp)", "Doanh thu (Thấp -> Cao)", "Tên (A-Z)"], key="sort_c2a", label_visibility="collapsed")
+                
+                rev_cat = plot_df.groupby('category')['total_amount'].sum().reset_index()
+                if sort_c2a == "Doanh thu (Cao -> Thấp)":
+                    rev_cat = rev_cat.sort_values('total_amount', ascending=True) # Plotly Bar(h) in ngược
+                elif sort_c2a == "Doanh thu (Thấp -> Cao)":
+                    rev_cat = rev_cat.sort_values('total_amount', ascending=False)
+                else:
+                    rev_cat = rev_cat.sort_values('category', ascending=False)
+                    
                 rev_cat['rev_m'] = rev_cat['total_amount'] / 1e6
 
                 fig_c2a = px.bar(rev_cat, x='rev_m', y='category', orientation='h',
@@ -904,9 +940,15 @@ with col_main:
 
             with c2b:
                 st.markdown("#### Tỷ lệ Hoàn trả theo Danh mục")
+                sort_c2b = st.radio("Sắp xếp:", ["Rủi ro (Cao -> Thấp)", "An toàn (Thấp -> Cao)"], horizontal=True, key="sort_c2b")
+                
                 ret_cat = plot_df.groupby('category').agg(total=('order_id','count'), returns=('is_returned','sum')).reset_index()
                 ret_cat['rate'] = ret_cat['returns'] / ret_cat['total'] * 100
-                ret_cat = ret_cat.sort_values('rate', ascending=True)
+                
+                if "Rủi ro" in sort_c2b:
+                    ret_cat = ret_cat.sort_values('rate', ascending=True)
+                elif "An toàn" in sort_c2b:
+                    ret_cat = ret_cat.sort_values('rate', ascending=False)
 
                 fig_c2b = px.bar(ret_cat, x='rate', y='category', orientation='h',
                                  color='rate', color_continuous_scale='Reds',
@@ -1013,7 +1055,7 @@ with col_main:
 
 
             # ── 2. Payment Heatmap + Top VIP ──
-            c3a, c3b = st.columns(2)
+            c3a, c3b = st.container(), st.container()
 
             with c3a:
                 st.markdown("#### Phương thức Thanh toán theo Nhóm tuổi")
@@ -1066,13 +1108,23 @@ with col_main:
         st.markdown("Phân tích tiềm năng doanh thu theo vùng miền, điểm nghẽn giao nhận, và tác động của cước phí tới tỷ lệ hoàn hàng.")
 
         if not plot_df.empty:
-            c4a, c4b = st.columns(2)
+            c4a, c4b = st.container(), st.container()
 
             with c4a:
                 st.markdown("#### Doanh Thu theo Khu vực Địa lý")
+                sort_c4a = st.selectbox("Sắp xếp theo:", ["Doanh thu (Cao -> Thấp)", "Số lượng đơn (Nhiều -> Ít)", "Tên (A-Z)"], key="sort_c4a", label_visibility="collapsed")
+                
                 rev_reg = plot_df[plot_df['is_returned']==0].groupby('region').agg(
                     revenue=('total_amount','sum'), orders=('order_id','count')
-                ).reset_index().sort_values('revenue', ascending=True)
+                ).reset_index()
+                
+                if "Doanh thu" in sort_c4a:
+                    rev_reg = rev_reg.sort_values('revenue', ascending=True)
+                elif "Số lượng đơn" in sort_c4a:
+                    rev_reg = rev_reg.sort_values('orders', ascending=True)
+                else:
+                    rev_reg = rev_reg.sort_values('region', ascending=False)
+                    
                 rev_reg['rev_m'] = rev_reg['revenue'] / 1e6
 
                 fig_reg = go.Figure()
@@ -1099,10 +1151,19 @@ with col_main:
 
             with c4b:
                 st.markdown("#### Tốc độ & Chi phí Giao hàng")
+                sort_c4b = st.radio("Sắp xếp (ưu tiên xem):", ["Giao chậm nhất", "Cước đắt nhất", "Tên (A-Z)"], horizontal=True, key="sort_c4b")
+                
                 ship_reg = plot_df.groupby('region').agg(
                     avg_del=('delivery_time_days','mean'),
                     avg_ship=('shipping_cost','mean')
-                ).reset_index().sort_values('avg_del', ascending=True)
+                ).reset_index()
+                
+                if "chậm nhất" in sort_c4b:
+                    ship_reg = ship_reg.sort_values('avg_del', ascending=False)
+                elif "đắt nhất" in sort_c4b:
+                    ship_reg = ship_reg.sort_values('avg_ship', ascending=False)
+                else:
+                    ship_reg = ship_reg.sort_values('region', ascending=True)
 
                 fig_ship = go.Figure()
                 fig_ship.add_trace(go.Bar(
