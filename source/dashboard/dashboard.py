@@ -44,7 +44,7 @@ CHART_LAYOUT = dict(
     plot_bgcolor='rgba(0,0,0,0)',
     paper_bgcolor='rgba(0,0,0,0)',
     font=CHART_FONT,
-    margin=dict(t=50, b=30, l=40, r=20),
+    margin=dict(t=80, b=40, l=40, r=20),
     hoverlabel=dict(bgcolor='white', font_size=12, font_family="Inter"),
 )
 
@@ -543,8 +543,8 @@ def style_fig(fig, height=380, show_xgrid=False, show_ygrid=True):
         xaxis=dict(showgrid=show_xgrid, gridcolor='#F1F5F9', zeroline=False),
         yaxis=dict(showgrid=show_ygrid, gridcolor='#F1F5F9', zeroline=False),
         legend=dict(
-            orientation='h', yanchor='top', y=-0.15, xanchor='center', x=0.5,
-            font=dict(size=11), bgcolor='rgba(0,0,0,0)',
+            orientation='h', yanchor='bottom', y=1.02, xanchor='center', x=0.5,
+            font=dict(size=11), bgcolor='rgba(255,255,255,0.6)',
         ),
     )
     return fig
